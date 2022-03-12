@@ -1,0 +1,50 @@
+pdf extract
+---
+1) If a word cant fit in the line it divede by - short line charecter.
+that might be problem.
+
+2)If a line cant fit the row extracted text puts new line charecter at 
+the end. So dont trusst new line charecter so much. 
+
+3) There is very high chance that script cant find some information 
+so better do that in try catch and just print what I can find
+
+4) In file5 there is no BENEFICIAIRE
+
+5) Always check if there are more than one instance of the word
+
+6) The first BENEFICIAIRE is not always the one we are looking for
+
+7) There are always new line before and after the BENEFICIAIRE we are looking for and no other words
+
+8) Regex would be better so that I can look for lines that have any or none spaces or with and without some specific words or case in sensitive
+    The down side it will be harder to read and understand the regex. I dont think it will efect performance
+
+9) I can give confidence points to results based on some factors like does it ends with new line does it have some words like street etc.
+
+10) In pdf1 there are 2 borrowers
+
+11) In file5 there is comma in borrowerOneName. My regex look for comma at the and. Who the fuck puts comma between name and surname
+
+12) I can use double rules like check if it has something after it too
+
+13) Maybe use pymupdf search function directly
+
+14) First paragraph of file 1 is extracted to before beneficiare. Weird
+
+15) In file 4 there is married info at the end of address
+
+16)repair_mono_font Some mono-spaced fonts are displayed with a too large character
+        width, e.g. "a b c" instead of "abc". This utility adds an entry
+        "/DW w" to the descendent font of font. The int w is
+        taken to be the first width > 0 of the font's unicodes.
+        This should enforce viewers to use 'w' as the character width.
+
+17) Pymupdf looks for blocks need to change how it looks blocks
+Approach ideas 
+---
+1-) Put many if statements. Look for start and end. Also length, patterns
+
+2-) Ai? Needs many examples to learn. Might produce weird results maybe.
+I can assign labels to each pdf like (pdf1,adress1) (pdf2,adress2) and 
+train a module for adress recognition
