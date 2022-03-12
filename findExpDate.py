@@ -1,4 +1,3 @@
-from tkinter.messagebox import NO
 import regex
 from unidecode import unidecode
 

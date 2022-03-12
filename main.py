@@ -14,10 +14,9 @@ from findBorrower1NameNew import findBorrower1NameNew
 from findBorrower2Address import findBorrower2Address
 from findBorrower1Married import findBorrower1Married
 from findBorrower2Married import findBorrower2Married
-from excelFillerBorrower2 import exceFillerBorrower2
 from findBorrower2WorkerOrOwner import findborrower2workerOrOwner
 from findPrice import findPrice
-from excelFiller import exceFill
+from excelFiller import exceFill , exceFillerBorrower2
 from findPropType import findPropType
 from findPropAddress import findPropAddress
 from findStatusOfProp import findStatusOfProp
@@ -32,8 +31,10 @@ from searchDetailed import searchDetailed
 
 
 def main(pdfname):
-    extracted = extractTextFromPdf("./pdf_files/"+pdfname+".pdf")
-    extractedDetailed = extractTextFromPdfWithFonts("./pdf_files/"+pdfname+".pdf")
+    #extracted = extractTextFromPdf("./pdf_files/"+pdfname+".pdf")
+    #extractedDetailed = extractTextFromPdfWithFonts("./pdf_files/"+pdfname+".pdf")
+    extracted = extractTextFromPdf("./uploads/"+pdfname)
+    extractedDetailed = extractTextFromPdfWithFonts("./uploads/"+pdfname)
     # Call print with functions and reduce lines. Also strip before return
     #Borrower1Name = findBorrower1Name(extracted).group()
     Borrower1Name = findBorrower1NameNew(extracted,extractedDetailed)
@@ -80,7 +81,7 @@ def main(pdfname):
     print("Fee Agency: " + FeeAgency)
     print("Fee Notatary: " + FeeNotary)
     print("Prop Address: " + findPropAddress(extracted,extractedDetailed))
-    exceFill("Form to fill based on OCR3.xls",Borrower1Name,Borrower1Adress,Borrower1Birthday,Borrower1PlaceOfBirth,Borrower1Nation,Borrower1Married,Borrower1Job )
+    exceFill("template.xls",Borrower1Name,Borrower1Adress,Borrower1Birthday,Borrower1PlaceOfBirth,Borrower1Nation,Borrower1Married,Borrower1Job )
     
     
     
@@ -102,8 +103,8 @@ def main(pdfname):
         print("Borrower 2 Married: " + Borrower2Married.strip("., "))
         print("Borrower 2 Job: " + Borrower2Job.strip("., "))
         
-        exceFillerBorrower2("Form to fill based on OCR3.xls_Borrower1.xls",Borrower2Name,Borrower2Address,Borrower2Birthday,Borrower2PlaceOfBirth,Borrower2Nation,Borrower2Married,Borrower2Job )    
-    
+        exceFillerBorrower2("template.xls",Borrower2Name,Borrower2Address,Borrower2Birthday,Borrower2PlaceOfBirth,Borrower2Nation,Borrower2Married,Borrower2Job )    
+    return "Main ended mydude"
 
 if __name__ == "__main__":
     if (len(sys.argv)<2):
