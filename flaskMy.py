@@ -20,7 +20,7 @@ def allowed_file(filename):
 @app.route('/uploads/<name>')
 def download_file(name):
     #return send_from_directory(app.config["UPLOAD_FOLDER"], name)
-    return send_from_directory("./pdf_files", "template.xls_b2.xls")
+    return send_from_directory("./pdf_files", "template.xls_final.xls")
 
 @app.route('/upload', methods=['GET', 'POST'])
 def upload():

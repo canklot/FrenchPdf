@@ -69,4 +69,4 @@ def exceFillerBorrower2(filename,borrower2Name,borrower2Address,borrower2Birthda
     write_sheet2.write(borrower2JobCoor[0],borrower2JobCoor[1],borrower2Job)
     
     
-    write_book.save(path + filename + "_b2.xls") #Save the newly written copy. Enter the same as the old path to write over
+    write_book.save(path + filename + "_final.xls") #Save the newly written copy. Enter the same as the old path to write over
