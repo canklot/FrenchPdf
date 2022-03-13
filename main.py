@@ -22,7 +22,7 @@ from findPropAddress import findPropAddress
 from findStatusOfProp import findStatusOfProp
 from findDeadLine import findDeadLine
 from findExpDate import findExpDate
-from findDownPaymentDetails import findDownPaymentAndContruction, findRate,findDuration
+from findDownPaymentDetails import findDownPaymentAndContruction, findRate,findDuration,findMortgage
 from findFee import findFeeAgency,findFeeNotary 
 import re
 import sys
@@ -51,10 +51,12 @@ def main(pdfname):
     ExpretionDate = findExpDate(extracted)
     Duration = findDuration(extracted)
     IntRate = findRate(extracted)
+    mortgage= findMortgage(extracted)
     
     FeeAgency =findFeeAgency(extracted)
     FeeNotary = findFeeNotary(extracted)
     BorrowerCount = countBorrowers(extracted)
+    propAddress =  findPropAddress(extracted,extractedDetailed)
     # list, text,font
     print("----------------------------------------------------\n")
     print("Borrower 1 Name: " + Borrower1Name.strip("., "))
@@ -80,14 +82,17 @@ def main(pdfname):
     print("Duration: " + Duration)
     print("Fee Agency: " + FeeAgency)
     print("Fee Notatary: " + FeeNotary)
-    print("Prop Address: " + findPropAddress(extracted,extractedDetailed))
+    print("Prop Address: " +propAddress)
     
     
     
     
     paramsDict1 = {"Borrower1Name":Borrower1Name,"Borrower1Adress":Borrower1Adress,"Borrower1Birthday":Borrower1Birthday,
                     "Borrower1PlaceOfBirth":Borrower1PlaceOfBirth,"Borrower1Nation":Borrower1Nation,"Borrower1Married":Borrower1Married,
-                    "Borrower1Job":Borrower1Job}
+                    "Borrower1Job":Borrower1Job,
+                    "PropPice":PropPice,"Downpayment":Downpayment,"mortgage":mortgage,"FeeAgency":FeeAgency,"FeeNotary":FeeNotary,
+                    "propAddress":propAddress,"propType":propType,"PropStatus":PropStatus
+                    }
 
     #exceFill("template.xls",Borrower1Name,Borrower1Adress,Borrower1Birthday,Borrower1PlaceOfBirth,Borrower1Nation,Borrower1Married,Borrower1Job )
     exceFill("template.xls", paramsDict1)
@@ -113,7 +118,8 @@ def main(pdfname):
                         "Borrower2PlaceOfBirth":Borrower2PlaceOfBirth,
                         "Borrower2Nation":Borrower2Nation,"Borrower2Married":Borrower2Married,"Borrower2Job":Borrower2Job,
                         "Borrower2Address":Borrower2Address,"Borrower2Birthday":Borrower2Birthday,"Borrower2PlaceOfBirth":Borrower2PlaceOfBirth,
-                        "Borrower2Nation":Borrower2Nation,"Borrower2Married":Borrower2Married,"Borrower2Job":Borrower2Job}
+                        "Borrower2Nation":Borrower2Nation,"Borrower2Married":Borrower2Married,"Borrower2Job":Borrower2Job,
+                        }
         #Borrower2Name,Borrower2Address,Borrower2Birthday,Borrower2PlaceOfBirth,Borrower2Nation,Borrower2Married,Borrower2Job
         exceFillerBorrower2("template.xls", paramsDict)    
     return "Main ended mydude"

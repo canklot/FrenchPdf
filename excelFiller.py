@@ -3,25 +3,35 @@ from xlutils.copy import copy
 
 path = "./pdf_files/" 
 
-borrower1NameCoor       =  (29,2)
-borrower1AddressCoor    =  (30,2)
-borrower1BirthdayCoor   =  (32,2)
-borrower1BirthPlaceCoor =  (33,2)
-borrower1NationCoor     =  (34,2)
-borrower1MarriedCoor    =  (38,2)
-borrower1JobCoor        =  (43,2)
+borrower1NameCoor       = (29,2)
+borrower1AddressCoor    = (30,2)
+borrower1BirthdayCoor   = (32,2)
+borrower1BirthPlaceCoor = (33,2)
+borrower1NationCoor     = (34,2)
+borrower1MarriedCoor    = (38,2)
+borrower1JobCoor        = (43,2)
 
-borrower2NameCoor       =  (29,5)
-borrower2AddressCoor    =  (30,5)
-borrower2BirthdayCoor   =  (32,5)
-borrower2BirthPlaceCoor =  (33,5)
-borrower2NationCoor     =  (34,5)
-borrower2MarriedCoor    =  (38,5)
-borrower2JobCoor        =  (43,5)
+borrower2NameCoor       = (29,5)
+borrower2AddressCoor    = (30,5)
+borrower2BirthdayCoor   = (32,5)
+borrower2BirthPlaceCoor = (33,5)
+borrower2NationCoor     = (34,5)
+borrower2MarriedCoor    = (38,5)
+borrower2JobCoor        = (43,5)
+
+propPriceCooor          = (54,2)
+downPaymentCoor         = (54,5)
+mortgageCoor            = (56,5)
+agencyFeeCoor           = (64,2)
+notaryFeeCoor           = (65,2)
+propAddressCoor         = (21,2)
+propType                = (22,2)
+propStatus              = (24,2)
+
 
 listOfCoords = [borrower1NameCoor,borrower1AddressCoor,borrower1BirthdayCoor,borrower1BirthPlaceCoor,borrower1NationCoor,
-                borrower1MarriedCoor,borrower1JobCoor,borrower2NameCoor,borrower2AddressCoor,borrower2BirthdayCoor,borrower2BirthPlaceCoor,
-                borrower2NationCoor,borrower2MarriedCoor,borrower2JobCoor]
+                borrower1MarriedCoor,borrower1JobCoor,propPriceCooor,downPaymentCoor,mortgageCoor,agencyFeeCoor,notaryFeeCoor,
+                propAddressCoor,propType,propStatus]
 
 listOfCoords2 =[borrower2NameCoor,borrower2AddressCoor,borrower2BirthdayCoor,
                 borrower2BirthPlaceCoor,borrower2NationCoor,borrower2MarriedCoor,borrower2JobCoor,]
