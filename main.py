@@ -82,10 +82,15 @@ def main(pdfname):
     print("Fee Notatary: " + FeeNotary)
     print("Prop Address: " + findPropAddress(extracted,extractedDetailed))
     
-    exceFill("template.xls",Borrower1Name,Borrower1Adress,Borrower1Birthday,Borrower1PlaceOfBirth,Borrower1Nation,Borrower1Married,Borrower1Job )
     
     
     
+    paramsDict1 = {"Borrower1Name":Borrower1Name,"Borrower1Adress":Borrower1Adress,"Borrower1Birthday":Borrower1Birthday,
+                    "Borrower1PlaceOfBirth":Borrower1PlaceOfBirth,"Borrower1Nation":Borrower1Nation,"Borrower1Married":Borrower1Married,
+                    "Borrower1Job":Borrower1Job}
+
+    #exceFill("template.xls",Borrower1Name,Borrower1Adress,Borrower1Birthday,Borrower1PlaceOfBirth,Borrower1Nation,Borrower1Married,Borrower1Job )
+    exceFill("template.xls", paramsDict1)
     
     if (BorrowerCount > 1):
         Borrower2PlaceOfBirth = findBorrower2PlaceOfBirth(extracted)
@@ -110,7 +115,7 @@ def main(pdfname):
                         "Borrower2Address":Borrower2Address,"Borrower2Birthday":Borrower2Birthday,"Borrower2PlaceOfBirth":Borrower2PlaceOfBirth,
                         "Borrower2Nation":Borrower2Nation,"Borrower2Married":Borrower2Married,"Borrower2Job":Borrower2Job}
         #Borrower2Name,Borrower2Address,Borrower2Birthday,Borrower2PlaceOfBirth,Borrower2Nation,Borrower2Married,Borrower2Job
-        exceFillerBorrower2("template.xls", **paramsDict)    
+        exceFillerBorrower2("template.xls", paramsDict)    
     return "Main ended mydude"
 
 if __name__ == "__main__":
