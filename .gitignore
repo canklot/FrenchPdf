@@ -50,3 +50,9 @@ Thumbs.db
 
 # Virtual env
 /cankvenv
+
+# exclude everything
+uploads/*
+
+# exception to the rule
+!uploads/gitkeep 
