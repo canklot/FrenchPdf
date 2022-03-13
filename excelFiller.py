@@ -49,7 +49,7 @@ def exceFill(filename,argsDict):
     for coor, field in zip(listOfCoords,argsDict):
         write_sheet1.write(coor[0],coor[1],argsDict[field])
     
-    write_book.save(path + filename + b1ending+".xls") #Save the newly written copy. Enter the same as the old path to write over
+    write_book.save(path + filename + "_final.xls") #Save the newly written copy. Enter the same as the old path to write over
     
 
 
