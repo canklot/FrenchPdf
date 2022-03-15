@@ -33,24 +33,41 @@ def findFeeNotary(normalText):
     return fee
 
 def findWhoWillPay(normalText):
+    unicodetext = unidecode(normalText)
+    regexBuyer = r"(N\s*E\s*G\s*O\s*C\s*I\s*A\s*T\s*I\s*O\s*N)(.{0,500})(BENEFICIAIRE)"
+    regSeller =  r"(N\s*E\s*G\s*O\s*C\s*I\s*A\s*T\s*I\s*O\s*N)(.{0,500})((PROMETTANT)|(VENDEUR))"
+    regResultBuyer = regex.search(regexBuyer,unicodetext,flags=regex.DOTALL)
+    regREsultSeller = regex.search(regSeller,unicodetext,flags=regex.DOTALL)
+    if regResultBuyer != None:
+        return "buyer"
+    elif regREsultSeller != None:
+        return "seller"
+    else: 
+        return "cant find"
+
+def findWhoWillPayOld(normalText):
     uniCodetext = unidecode(normalText)
     buyerKeywords = ["frais de négociation à la charge du bénéficiaire",
                     "le bénéficiaire qui en aura seul la charge, s'oblige à verser une rémunération toutes taxes comprises de",
                     "le bénéficiaire à titre d'honoraires de négociation",
                     "le bénéficiaire qui en a seul la charge au terme du mandat doit à l'agence une rémunération de",
-                    "le bénéficiaire qui en a seul la charge au terme du mandat doit à l'agence une rémunération toutes taxes comprises de"]
+                    "le bénéficiaire qui en a seul la charge au terme du mandat doit à l'agence une rémunération toutes taxes comprises de"
+                    "Le bénéficiaire qui en a seul la charge aux termes du mandat"]
+
     sellerKeywords = ["frais de négociation à la charge de l'acquéreur",
                     "l'acquéreur qui en aura seul la charge, s'oblige à verser une rémunération toutes taxes comprises de",
                     "l'acquéreur à titre d'honoraires de négociation",
                     "l'acquéreur qui en a seul la charge au terme du mandat doit à l'agence une rémunération de",
                     "l'acquéreur qui en a seul la charge au terme du mandat doit à l'agence une rémunération toutes taxes comprises de"]
-    buyerKeywords = unidecode(buyerKeywords)
-    sellerKeywords = unidecode(sellerKeywords)
+    buyerKeywords = [unidecode(x) for x in buyerKeywords]
+    sellerKeywords = [unidecode(x) for x in sellerKeywords]
 
-    if buyerKeywords in normalText:
-        return "buyer"
-    elif sellerKeywords in normalText:
-        return "seller"
-    else:
-        return "cant find"
+    for sentence in buyerKeywords:     
+        if sentence in normalText.lower():
+            return "buyer"
+    for sentence in sellerKeywords:     
+        if sentence in normalText.lower():
+            return "seller"
+    
+    return "cant find"
 

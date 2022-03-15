@@ -53,6 +53,7 @@ Thumbs.db
 
 # exclude everything
 uploads/*
+testfiles/*
 
 # exception to the rule
 !uploads/gitkeep 

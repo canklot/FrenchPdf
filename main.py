@@ -52,13 +52,14 @@ def main(pdfname):
     Duration = findDuration(extracted)
     IntRate = findRate(extracted)
     mortgage= findMortgage(extracted)
-    whoWillPay = findWhoWillPay(extracted)
-    if findWhoWillPay == "buyer":
+    whoWillPayResult = findWhoWillPay(extracted)
+    if whoWillPayResult == "buyer":
         FeeAgency =findFeeAgency(extracted)
         FeeNotary = findFeeNotary(extracted)
-    elif findWhoWillPay == "seller":
+    elif whoWillPayResult == "seller":
         FeeAgency = "sera a la charge du vendeur"
         FeeNotary = "sera a la charge du vendeur"
+        
     BorrowerCount = countBorrowers(extracted)
     propAddress =  findPropAddress(extracted,extractedDetailed)
     # list, text,font
@@ -131,7 +132,7 @@ def main(pdfname):
 if __name__ == "__main__":
     if (len(sys.argv)<2):
         print("no arguments, file name, given")
-        defaultfile = "file7"
+        defaultfile = "file4.pdf"
         main(defaultfile)
     else:
         main(sys.argv[1])
