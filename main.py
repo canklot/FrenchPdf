@@ -23,7 +23,7 @@ from findStatusOfProp import findStatusOfProp
 from findDeadLine import findDeadLine
 from findExpDate import findExpDate
 from findDownPaymentDetails import findDownPaymentAndContruction, findRate,findDuration,findMortgage
-from findFee import findFeeAgency,findFeeNotary 
+from findFee import findFeeAgency,findFeeNotary ,whoWillPay
 import re
 import sys
 
