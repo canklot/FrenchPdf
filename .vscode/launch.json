@@ -18,6 +18,17 @@
             "program": "${workspaceFolder}/main.py",
             "console": "integratedTerminal",
             "justMyCode": false
+        },
+        {
+            "name": "Gunicorn",
+            "type": "python",
+            "request": "launch",
+            "program": "/home/debbie/Desktop/FrenchPdfClonned/FrenchPdf/cankvenv/bin/gunicorn",
+            "gevent":true,
+            "args": ["flaskMy:app", "--log-file -"],
+            "console": "integratedTerminal",
+            "justMyCode": false,
+            "cwd": "${fileDirname}"
         }
     ]
 }

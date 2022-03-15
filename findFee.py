@@ -34,8 +34,8 @@ def findFeeNotary(normalText):
 
 def findWhoWillPay(normalText):
     unicodetext = unidecode(normalText)
-    regexBuyer = r"(N\s*E\s*G\s*O\s*C\s*I\s*A\s*T\s*I\s*O\s*N)(.{0,500})(BENEFICIAIRE)"
-    regSeller =  r"(N\s*E\s*G\s*O\s*C\s*I\s*A\s*T\s*I\s*O\s*N)(.{0,500})((PROMETTANT)|(VENDEUR))"
+    regexBuyer = r"((N\s*E\s*G\s*O\s*C\s*I\s*A\s*T\s*I\s*O\s*N)|(C\s*O\s*M\s*M\s*I\s*S\s*S\s*I\s*O\s*N))(.{0,500})(BENEFICIAIRE)"
+    regSeller =  r"((N\s*E\s*G\s*O\s*C\s*I\s*A\s*T\s*I\s*O\s*N)|(C\s*O\s*M\s*M\s*I\s*S\s*S\s*I\s*O\s*N))(.{0,500})((PROMETTANT)|(VENDEUR))"
     regResultBuyer = regex.search(regexBuyer,unicodetext,flags=regex.DOTALL)
     regREsultSeller = regex.search(regSeller,unicodetext,flags=regex.DOTALL)
     if regResultBuyer != None:

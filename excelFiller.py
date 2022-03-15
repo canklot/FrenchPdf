@@ -57,7 +57,7 @@ def exceFill(filename,argsDict):
 # filename,borrower2Name,borrower2Address,borrower2Birthday,borrower2BirthPlace,borrower2Nation,borrower2Married,borrower2Job
 def exceFillerBorrower2(filename,argsDict):
     
-    read_book = xlrd.open_workbook(path+ filename+b1ending+".xls", formatting_info=True) #Make Readable Copy
+    read_book = xlrd.open_workbook(path+ filename+"_final.xls", formatting_info=True) #Make Readable Copy
     write_book = copy(read_book) #Make Writeable Copy
     write_sheet2 = write_book.get_sheet(0) #Get sheet 2 in writeable copy
     

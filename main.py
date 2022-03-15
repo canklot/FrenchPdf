@@ -132,7 +132,7 @@ def main(pdfname):
 if __name__ == "__main__":
     if (len(sys.argv)<2):
         print("no arguments, file name, given")
-        defaultfile = "file4.pdf"
+        defaultfile = "file10.pdf"
         main(defaultfile)
     else:
         main(sys.argv[1])
