@@ -52,9 +52,13 @@ def main(pdfname):
     Duration = findDuration(extracted)
     IntRate = findRate(extracted)
     mortgage= findMortgage(extracted)
-    
-    FeeAgency =findFeeAgency(extracted)
-    FeeNotary = findFeeNotary(extracted)
+    whoWillPay = findWhoWillPay(extracted)
+    if whoWillPay == "buyer":
+        FeeAgency =findFeeAgency(extracted)
+        FeeNotary = findFeeNotary(extracted)
+    elif whoWillPay == "seller":
+        FeeAgency = "sera a la charge du vendeur"
+        FeeNotary = "sera a la charge du vendeur"
     BorrowerCount = countBorrowers(extracted)
     propAddress =  findPropAddress(extracted,extractedDetailed)
     # list, text,font

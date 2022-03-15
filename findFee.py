@@ -31,3 +31,26 @@ def findFeeNotary(normalText):
     else:
         fee = "Cant find"
     return fee
+
+def findWhoWillPay(normalText):
+    uniCodetext = unidecode(normalText)
+    buyerKeywords = ["frais de négociation à la charge du bénéficiaire",
+                    "le bénéficiaire qui en aura seul la charge, s'oblige à verser une rémunération toutes taxes comprises de",
+                    "le bénéficiaire à titre d'honoraires de négociation",
+                    "le bénéficiaire qui en a seul la charge au terme du mandat doit à l'agence une rémunération de",
+                    "le bénéficiaire qui en a seul la charge au terme du mandat doit à l'agence une rémunération toutes taxes comprises de"]
+    sellerKeywords = ["frais de négociation à la charge de l'acquéreur",
+                    "l'acquéreur qui en aura seul la charge, s'oblige à verser une rémunération toutes taxes comprises de",
+                    "l'acquéreur à titre d'honoraires de négociation",
+                    "l'acquéreur qui en a seul la charge au terme du mandat doit à l'agence une rémunération de",
+                    "l'acquéreur qui en a seul la charge au terme du mandat doit à l'agence une rémunération toutes taxes comprises de"]
+    buyerKeywords = unidecode(buyerKeywords)
+    sellerKeywords = unidecode(sellerKeywords)
+
+    if buyerKeywords in normalText:
+        return "buyer"
+    elif sellerKeywords in normalText:
+        return "seller"
+    else:
+        return "cant find"
+
