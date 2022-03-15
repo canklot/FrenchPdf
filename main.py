@@ -23,7 +23,7 @@ from findStatusOfProp import findStatusOfProp
 from findDeadLine import findDeadLine
 from findExpDate import findExpDate
 from findDownPaymentDetails import findDownPaymentAndContruction, findRate,findDuration,findMortgage
-from findFee import findFeeAgency,findFeeNotary ,whoWillPay
+from findFee import findFeeAgency,findFeeNotary ,findWhoWillPay
 import re
 import sys
 
@@ -53,10 +53,10 @@ def main(pdfname):
     IntRate = findRate(extracted)
     mortgage= findMortgage(extracted)
     whoWillPay = findWhoWillPay(extracted)
-    if whoWillPay == "buyer":
+    if findWhoWillPay == "buyer":
         FeeAgency =findFeeAgency(extracted)
         FeeNotary = findFeeNotary(extracted)
-    elif whoWillPay == "seller":
+    elif findWhoWillPay == "seller":
         FeeAgency = "sera a la charge du vendeur"
         FeeNotary = "sera a la charge du vendeur"
     BorrowerCount = countBorrowers(extracted)
