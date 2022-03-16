@@ -52,7 +52,7 @@ def upload():
 
 @app.route("/")
 def hello_world():
-    return "<p>Hello, World! asd</p>"
+    return "<p>Hello, World! Please go to /upload for uploading a new file</p>"
 
 if __name__ == '__main__':
     app.run(debug=True)
