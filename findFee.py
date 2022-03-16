@@ -34,14 +34,20 @@ def findFeeNotary(normalText):
 
 def findWhoWillPay(normalText):
     unicodetext = unidecode(normalText)
-    regexBuyer = r"((N\s*E\s*G\s*O\s*C\s*I\s*A\s*T\s*I\s*O\s*N)|(C\s*O\s*M\s*M\s*I\s*S\s*S\s*I\s*O\s*N))(.{0,500})(BENEFICIAIRE)"
+    regexBuyer = r"((N\s*E\s*G\s*O\s*C\s*I\s*A\s*T\s*I\s*O\s*N)|(C\s*O\s*M\s*M\s*I\s*S\s*S\s*I\s*O\s*N\s*D\s*’*?\s*A\s*G\s*E\s*N\s*C\s*E))(.{0,500})(BENEFICIAIRE)"
+    regexBuyerSmall = r"((N\s*E\s*G\s*O\s*C\s*I\s*A\s*T\s*I\s*O\s*N)|(C\s*O\s*M\s*M\s*I\s*S\s*S\s*I\s*O\s*N\s*D\s*’*?\s*A\s*G\s*E\s*N\s*C\s*E))(.{0,500})(?i:BENEFICIAIRE)"
+    # or charge du beneficiaire. for file 10
     regSeller =  r"((N\s*E\s*G\s*O\s*C\s*I\s*A\s*T\s*I\s*O\s*N)|(C\s*O\s*M\s*M\s*I\s*S\s*S\s*I\s*O\s*N))(.{0,500})((PROMETTANT)|(VENDEUR))"
+
     regResultBuyer = regex.search(regexBuyer,unicodetext,flags=regex.DOTALL)
     regREsultSeller = regex.search(regSeller,unicodetext,flags=regex.DOTALL)
+    regResultBuyerSmall = regex.search(regexBuyerSmall,unicodetext,flags=regex.DOTALL)
     if regResultBuyer != None:
         return "buyer"
     elif regREsultSeller != None:
         return "seller"
+    elif regResultBuyerSmall != None:
+        return "buyer"
     else: 
         return "cant find"
 
