@@ -42,18 +42,20 @@ def upload():
             return redirect(url_for('download_file', name=filename))
     return '''
     <!doctype html>
+    <div style="margin: auto; width: 50%;  padding: 10px;">
     <title>Uploader votre fichier</title>
-    <h1>Uploader votre fichier</h1>
-    <img src="{{url_for('static', filename='fiduce.png')}}" />
-    <form method=post enctype=multipart/form-data>
+    <h1 style="margin: auto; width: 50%;  padding: 10px;" >Uploader votre fichier</h1>
+    <img src="/static/fiduce.png" alt="fiduce"    style="display: block; margin-left: auto; margin-right: auto; width: 50%;">
+    <form method=post enctype=multipart/form-data style="margin: auto; width: 50%;  padding: 10px;">
       <input type=file name=file>
-      <input type=submit value=Upload>
+      <input type=submit value=Uploader>
     </form>
+    </div>
     '''
 
 @app.route("/")
 def hello_world():
-    return "<p>Please go to /upload for uploading a new file</p>"
+    return "<p style='white-space: pre-line'>Veuillez aller sur /upload pour télécharger un nouveau fichier. \n Please go to /upload for uploading a new file</p>"
 
 if __name__ == '__main__':
     app.run(debug=True)
