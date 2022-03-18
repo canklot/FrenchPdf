@@ -8,6 +8,6 @@ def findBorrower2Married(text):
     regexCel = r"célibataire|celibataire"
     celibataire = re.search(regexCel,shortText,flags=re.IGNORECASE)
     if celibataire == None:
-        return "Married"
+        return "Marie"
     else:
         return "Celibataire"

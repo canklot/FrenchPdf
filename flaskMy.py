@@ -44,6 +44,7 @@ def upload():
     <!doctype html>
     <title>Uploader votre fichier</title>
     <h1>Uploader votre fichier</h1>
+    <img src="{{url_for('static', filename='fiduce.png')}}" />
     <form method=post enctype=multipart/form-data>
       <input type=file name=file>
       <input type=submit value=Upload>
