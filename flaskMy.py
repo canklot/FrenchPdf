@@ -42,8 +42,8 @@ def upload():
             return redirect(url_for('download_file', name=filename))
     return '''
     <!doctype html>
-    <title>Upload new File</title>
-    <h1>Upload new File</h1>
+    <title>Uploader votre fichier</title>
+    <h1>Uploader votre fichier</h1>
     <form method=post enctype=multipart/form-data>
       <input type=file name=file>
       <input type=submit value=Upload>
@@ -52,7 +52,7 @@ def upload():
 
 @app.route("/")
 def hello_world():
-    return "<p>Hello, World! Please go to /upload for uploading a new file</p>"
+    return "<p>Please go to /upload for uploading a new file</p>"
 
 if __name__ == '__main__':
     app.run(debug=True)
