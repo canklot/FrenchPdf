@@ -44,9 +44,9 @@ def upload():
     <!doctype html>
     <div style="margin: auto; width: 50%;  padding: 10px;">
     <title>Uploader votre fichier</title>
-    <h1 style="margin: auto; width: 50%;  padding: 10px;" >Uploader votre fichier</h1>
+    <h1 style="margin: auto; width: 50%;  padding: 10px; text-align:center;" >Uploader votre fichier</h1>
     <img src="/static/fiduce.png" alt="fiduce"    style="display: block; margin-left: auto; margin-right: auto; width: 50%;">
-    <form method=post enctype=multipart/form-data style="margin: auto; width: 50%;  padding: 10px;">
+    <form method=post enctype=multipart/form-data style="margin: auto; width: 50%;  padding: 10px; text-align:center;">
       <input type=file name=file>
       <input type=submit value=Uploader>
     </form>
