@@ -22,6 +22,6 @@ def findPrice(normalText):
         price = price.replace(" ","")
         price = price.replace(".","")
     else:
-        fee = "Cant find"
+        fee = "Non trouve"
     
     return price

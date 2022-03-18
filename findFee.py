@@ -13,7 +13,7 @@ def findFeeAgency(normalText):
         fee = fee.replace(" ","")
         fee = fee.replace(".","")
     else:
-        fee = "Cant find"
+        fee = "Non trouve"
     return fee
 
 def findFeeNotary(normalText):
@@ -29,7 +29,7 @@ def findFeeNotary(normalText):
         fee = fee.replace(" ","")
         fee = fee.replace(".","")
     else:
-        fee = "Cant find"
+        fee = "Non trouve"
     return fee
 
 def findWhoWillPay(normalText):
@@ -49,7 +49,7 @@ def findWhoWillPay(normalText):
     elif regResultBuyerSmall != None:
         return "buyer"
     else: 
-        return "cant find"
+        return "Non trouve"
 
 def findWhoWillPayOld(normalText):
     uniCodetext = unidecode(normalText)
@@ -75,5 +75,5 @@ def findWhoWillPayOld(normalText):
         if sentence in normalText.lower():
             return "seller"
     
-    return "cant find"
+    return "Non trouve"
 

@@ -6,7 +6,7 @@ that might be problem.
 2)If a line cant fit the row extracted text puts new line charecter at 
 the end. So dont trusst new line charecter so much. 
 
-3) There is very high chance that script cant find some information 
+3) There is very high chance that script Non trouve some information 
 so better do that in try catch and just print what I can find
 
 4) In file5 there is no BENEFICIAIRE

@@ -10,7 +10,7 @@ def findBorrower1Name(text):
     
     madameEndIndx = shortText.rfind("Madame")
     monsieurEndIndx = shortText.rfind("Monsieur")
-    # Search Monsieur after beneficiar until after xx charecter. Return -1 if cant find
+    # Search Monsieur after beneficiar until after xx charecter. Return -1 if Non trouve
     
     """ regex= "^Madame.*?,"    
     #starts with Monsieur any charecter any length ends with comma and lazy. ^ charecter might be unnecesary
@@ -29,7 +29,7 @@ def findBorrower1Name(text):
     elif(monsieurEndIndx>0):
         borrower1Name = re.search(regexBeforeAfterMonsieur, shortText, flags=re.IGNORECASE)
     else:
-        print("cant find name madame or monieur")
+        print("Non trouve name madame or monieur")
     global borrower1NameEnd
     borrower1NameEnd = borrower1Name.span()[1]
     return borrower1Name

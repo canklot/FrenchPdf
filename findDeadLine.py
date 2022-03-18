@@ -9,6 +9,6 @@ def findDeadLine(normalText):
     if deadLine != None:
         deadLineDate = deadLine.group()
     else:
-        deadLineDate = "Cant find"
+        deadLineDate = "Non trouve"
     
     return deadLineDate.replace("\n", "").strip()

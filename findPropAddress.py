@@ -18,7 +18,7 @@ def findPropAddress(normalText,detailedText):
         propAddress = regresult.group()
         propAddress = propAddress.replace("\n"," ")
     else:
-        propAddress = "cant find"
+        propAddress = "Non trouve"
     return propAddress
 
 
@@ -92,7 +92,7 @@ def findPropAddressold2(normalText,detailedText):
     if regresult != None:
         propAddress = regresult.group()
     else:
-        propAddress = "cant find"
+        propAddress = "Non trouve"
     
     return propAddress
 

@@ -17,6 +17,6 @@ def findExpDate(normalText):
         expDate =regresult.group()
         expDate = expDate.replace("\n"," ").strip()
     else:
-        expDate ="Cant find"
+        expDate ="Non trouve"
     return expDate
     

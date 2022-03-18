@@ -7,7 +7,7 @@ def findPropType(normalText):
     if(regresult!=None):
         propType = regresult.group()
     else:
-        propType = "Cant find"
+        propType = "Non trouve"
     
     if propType.lower()== "immeuble":
         propType="Immeuble"

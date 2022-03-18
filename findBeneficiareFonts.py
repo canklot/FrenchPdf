@@ -18,7 +18,7 @@ def findBeneficiaire(normalText,detailedText):
     elif beneficiare == None:
         beneficiare = searchDetailed(detailedText,"ACQUEREUR","Bold")
     elif beneficiare == None:
-        raise ValueError('Cant find BENEFICIAIRE')
+        raise ValueError('Non trouve BENEFICIAIRE')
     
     benIndx = beneficiare.span()[1]
     benIndx = indexConvert (benIndx,normalText)

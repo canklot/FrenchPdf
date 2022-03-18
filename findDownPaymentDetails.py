@@ -20,7 +20,7 @@ def findTotalAmount(normalText):
         amount = amount.replace(" ","")
         amount = int(amount)
     else:
-        amount = "Cant find"
+        amount = "Non trouve"
         
     print("Total amount: " + str(amount))
     return amount
@@ -39,7 +39,7 @@ def findMortgage(normalText):
         mortgage = mortgage.replace(" ","")
         mortgage = int(mortgage)
     else:
-        mortgage = "Cant find"
+        mortgage = "Non trouve"
     
     print("Mortgage: " + str(mortgage))
     return mortgage
@@ -56,7 +56,7 @@ def findDownPaymentAndContruction(normalText):
                 construction = -1 * Downpayment
                 Downpayment = 0
     else:
-        Downpayment = "Cant find"
+        Downpayment = "Non trouve"
     
     return {"Downpayment":Downpayment,"Construction":construction}
 
@@ -88,7 +88,7 @@ def findRate(normalText):
         rate = str(rate)+"%"
         
     else:
-        rate = "Cant find"
+        rate = "Non trouve"
     return rate
 
 def findDuration(normalText):
@@ -110,7 +110,7 @@ def findDuration(normalText):
             Duration = str(Duration)
             # Converts months to years
     else:
-        Duration = "Cant find"
+        Duration = "Non trouve"
     global DurationEnd 
     DurationEnd = regresult.span()[1]
     return Duration

@@ -21,7 +21,7 @@ def findBeneficiaire(text):
                 smalben = beneficiare
                 benindx = beneficiare.span()[0]
     if benindx == bignum:
-        raise ValueError('Cant find BENEFICIAIRE')
+        raise ValueError('Non trouve BENEFICIAIRE')
     
     global beneficiaireEnd
     beneficiaireEnd = smalben.span()[1]
@@ -46,7 +46,7 @@ def oldfindBeneficiaire(text):
             if beneficiare.span()[0] < benindx:
                 benindx = beneficiare.span()[0]
     if beneficiare == None:
-        raise ValueError('Cant find BENEFICIAIRE')
+        raise ValueError('Non trouve BENEFICIAIRE')
     
     global beneficiaireEnd
     beneficiaireEnd = beneficiare.span()[1]
@@ -71,7 +71,7 @@ def oldfindBenFonts(normalText,detailedText):
     elif beneficiare == None:
         beneficiare = searchDetailed(detailedText,"ACQUEREUR","Bold")
     elif beneficiare == None:
-        raise ValueError('Cant find BENEFICIAIRE')
+        raise ValueError('Non trouve BENEFICIAIRE')
     
     benIndx = beneficiare[1]
     benIndx = indexConvert (benIndx,normalText)
