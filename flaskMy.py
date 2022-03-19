@@ -2,7 +2,7 @@ from flask import Flask
 from flask import send_from_directory
 from main import main
 import os
-from flask import Flask, flash, request, redirect, url_for
+from flask import Flask, flash, request, redirect, url_for,render_template
 from werkzeug.utils import secure_filename
 
 
@@ -42,10 +42,11 @@ def upload():
             return redirect(url_for('download_file', name=filename))
     return '''
     <!doctype html>
+    <link rel="shortcut icon" href="{{ url_for('static', filename='favicon.ico') }}">
     <div style="margin: auto; width: 50%;  padding: 10px;">
     <title>Uploader votre fichier</title>
-    <h1 style="margin: auto; width: 50%;  padding: 10px; text-align:center;" >Uploader votre fichier</h1>
     <img src="/static/fiduce.png" alt="fiduce"    style="display: block; margin-left: auto; margin-right: auto; width: 50%;">
+    <h1 style="margin: auto; width: 50%;  padding: 10px; text-align:center;" >Uploader votre fichier</h1>
     <form method=post enctype=multipart/form-data style="margin: auto; width: 50%;  padding: 10px; text-align:center;">
       <input type=file name=file>
       <input type=submit value=Uploader>
@@ -57,5 +58,21 @@ def upload():
 def hello_world():
     return "<p style='white-space: pre-line'>Veuillez aller sur /upload pour télécharger un nouveau fichier. \n Please go to /upload for uploading a new file</p>"
 
+@app.route('/logs/')
+def logs():
+    filenames = os.listdir('uploads')
+    return render_template('logs.html', files=filenames)
+
+@app.route('/logs/<path:filename>')
+def log(filename):
+    return send_from_directory(
+        os.path.abspath('uploads'),
+        filename,
+        as_attachment=True
+    )
+@app.route('/favicon.ico')
+def favicon():
+    return send_from_directory(os.path.join(app.root_path, 'static'),
+                               'favicon.ico', mimetype='image/vnd.microsoft.icon')
 if __name__ == '__main__':
     app.run(debug=True)
