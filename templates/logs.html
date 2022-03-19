@@ -7,7 +7,7 @@
   <body>
     <ul>
     {% for file in files %}
-        <li><a href="{{ url_for('log', filename=file) }}">{{ file }}</a></li>
+        <li><a href="{{ url_for('log', filename=file[0]) }}">{{ file[0] }} --- Creation Date: {{ file[1] }}</a></li>
     {% endfor %}
     </ul>
   </body>

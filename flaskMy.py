@@ -1,7 +1,7 @@
 from flask import Flask
 from flask import send_from_directory
 from main import main
-import os
+import os,time
 from flask import Flask, flash, request, redirect, url_for,render_template
 from werkzeug.utils import secure_filename
 
@@ -16,6 +16,12 @@ def allowed_file(filename):
     return '.' in filename and \
            filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
 
+def get_information(directory):
+    file_list = []
+    for i in os.listdir(directory):
+        a = os.stat(os.path.join(directory,i))
+        file_list.append([i,time.ctime(a.st_ctime)]) #[file,created]
+    return file_list
 
 @app.route('/uploads/<name>')
 def download_file(name):
@@ -48,7 +54,8 @@ def hello_world():
 
 @app.route('/logs/')
 def logs():
-    filenames = os.listdir('uploads')
+    #filenames = os.listdir('uploads')
+    filenames = get_information("uploads")
     return render_template('logs.html', files=filenames)
 
 @app.route('/logs/<path:filename>')
