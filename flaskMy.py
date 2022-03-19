@@ -40,19 +40,7 @@ def upload():
             file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
             main(filename)
             return redirect(url_for('download_file', name=filename))
-    return '''
-    <!doctype html>
-    <link rel="shortcut icon" href="{{ url_for('static', filename='favicon.ico') }}">
-    <div style="margin: auto; width: 50%;  padding: 10px;">
-    <title>Uploader votre fichier</title>
-    <img src="/static/fiduce.png" alt="fiduce"    style="display: block; margin-left: auto; margin-right: auto; width: 50%;">
-    <h1 style="margin: auto; width: 50%;  padding: 10px; text-align:center;" >Uploader votre fichier</h1>
-    <form method=post enctype=multipart/form-data style="margin: auto; width: 50%;  padding: 10px; text-align:center;">
-      <input type=file name=file>
-      <input type=submit value=Uploader>
-    </form>
-    </div>
-    '''
+    return  render_template('upload.html')
 
 @app.route("/")
 def hello_world():
