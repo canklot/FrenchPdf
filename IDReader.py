@@ -73,7 +73,7 @@ def main (fileName):
         #image = removeBorder(image)
         #image = removeSmallBlobs(image)
         mrz = getData(image)
-        if (mrz !=None) and (mrz.valid_score > 70):
+        if (mrz !=None) and (mrz.valid_score > 50):
             break
     """ else:
         

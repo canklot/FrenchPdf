@@ -20,14 +20,14 @@ def imageExtract(filename):
             xref = img[0]
             pix = fitz.Pixmap(doc, xref)
             if pix.n < 5:       # this is GRAY or RGB
-                pix.writePNG("p%s-%s.png" % (i, xref))
+                #pix.writePNG("p%s-%s.png" % (i, xref))
                 pix =  pix.pil_tobytes(format="PNG", optimize=True)
                 imageList.append(pix)
             else:               # CMYK: convert to RGB first
                 pix1 = fitz.Pixmap(fitz.csRGB, pix)
                 pix =  pix.pil_tobytes(format="JPG", optimize=True)
                 imageList.append(pix)
-                pix1.writePNG("p%s-%s.jpg" % (i, xref))
+                #pix1.writePNG("p%s-%s.jpg" % (i, xref))
                 pix1 = None
             pix = None
     return imageList
