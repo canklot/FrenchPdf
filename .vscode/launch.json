@@ -15,7 +15,7 @@
             "name": "Python: main.py",
             "type": "python",
             "request": "launch",
-            "program": "${workspaceFolder}/main.py",
+            "program": "${workspaceFolder}/code/main.py",
             "console": "integratedTerminal",
             "justMyCode": false
         },
@@ -29,6 +29,7 @@
             "console": "integratedTerminal",
             "justMyCode": false,
             "cwd": "${fileDirname}"
+            
         }
     ]
 }

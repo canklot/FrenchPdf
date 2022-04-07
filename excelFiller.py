@@ -63,5 +63,6 @@ def exceFillerBorrower2(filename,argsDict):
     
     for coor, field in zip(listOfCoords2,argsDict):
         write_sheet2.write(coor[0],coor[1],argsDict[field])
-
+        
+    filename= filename.replace(".xls","")
     write_book.save(path + filename + "_final.xls") #Save the newly written copy. Enter the same as the old path to write over

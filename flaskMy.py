@@ -4,6 +4,7 @@ from main import main
 import os,time
 from flask import Flask, flash, request, redirect, url_for,render_template
 from werkzeug.utils import secure_filename
+import IDReader
 
 
 UPLOAD_FOLDER = './uploads'
@@ -25,33 +26,50 @@ def get_information(directory):
 
 @app.route('/uploads/<name>')
 def download_file(name):
-    #return send_from_directory(app.config["UPLOAD_FOLDER"], name)
-    return send_from_directory("./pdf_files", "template.xls_final.xls")
+    return send_from_directory("./files", "template_final.xls")
+    
+@app.route('/uploadsIdPass/<name>')
+def download_file_IdPass(name):
+    return send_from_directory("./pdf_files", "template_IdPassFinal.xls")
 
 @app.route('/upload', methods=['GET', 'POST'])
 def upload():
     if request.method == 'POST':
         # check if the post request has the file part
-        if 'file' not in request.files:
+        if 'file' in request.files:
+            file = request.files['file']
+            # If the user does not select a file, the browser submits an
+            # empty file without a filename.
+            if file.filename == '':
+                flash('No selected file')
+                return redirect(request.url)
+            if file and allowed_file(file.filename):
+                filename = secure_filename(file.filename)
+                file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
+                main(filename)
+                return redirect(url_for('download_file', name=filename))
+        elif 'IdPass' in request.files:
+            file = request.files['IdPass']
+            if file.filename == '':
+                flash('No selected file')
+                return redirect(request.url)
+            if file and allowed_file(file.filename):
+                filename = secure_filename(file.filename)
+                file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
+                IDReader.main(filename)
+                return send_from_directory("./files", "template_IdPassFinal.xls")
+
+        else: 
             flash('No file part')
             return redirect(request.url)
-        file = request.files['file']
-        # If the user does not select a file, the browser submits an
-        # empty file without a filename.
-        if file.filename == '':
-            flash('No selected file')
-            return redirect(request.url)
-        if file and allowed_file(file.filename):
-            filename = secure_filename(file.filename)
-            file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
-            main(filename)
-            return redirect(url_for('download_file', name=filename))
+        
+
     return  render_template('upload.html')
 
 @app.route("/")
 def hello_world():
-    return "<p style='white-space: pre-line'>Veuillez aller sur /upload pour télécharger un nouveau fichier. \n Please go to /upload for uploading a new file</p>"
-
+    return render_template('index.html')
+     
 @app.route('/logs/')
 def logs():
     #filenames = os.listdir('uploads')
