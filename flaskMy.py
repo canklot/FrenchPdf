@@ -5,6 +5,7 @@ import os,time
 from flask import Flask, flash, request, redirect, url_for,render_template
 from werkzeug.utils import secure_filename
 import IDReader
+import findFileType
 
 
 UPLOAD_FOLDER = './uploads'
