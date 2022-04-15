@@ -5,7 +5,7 @@ import os,time
 from flask import Flask, flash, request, redirect, url_for,render_template
 from werkzeug.utils import secure_filename
 import IDReader
-import findFileType
+from findFileType import findFileType 
 
 
 UPLOAD_FOLDER = './uploads'
@@ -47,19 +47,16 @@ def upload():
             if file and allowed_file(file.filename):
                 filename = secure_filename(file.filename)
                 file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
-                main(filename)
-                return redirect(url_for('download_file', name=filename))
-        elif 'IdPass' in request.files:
-            file = request.files['IdPass']
-            if file.filename == '':
-                flash('No selected file')
-                return redirect(request.url)
-            if file and allowed_file(file.filename):
-                filename = secure_filename(file.filename)
-                file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
-                IDReader.main(filename)
-                return send_from_directory("./files", "template_IdPassFinal.xls")
-
+                fileType = findFileType(filename)
+                print(fileType)
+                if fileType == "Contract":
+                    main(filename)
+                    cwd = os.getcwd()
+                    return send_from_directory("./pdf_files", "template_final.xls")
+                    #return redirect(url_for('download_file', name=filename))
+                elif fileType == "IdPass":
+                    IDReader.main(filename)
+                    return send_from_directory("./files", "template_IdPassFinal.xls")
         else: 
             flash('No file part')
             return redirect(request.url)

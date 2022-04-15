@@ -33,7 +33,7 @@ from searchDetailed import searchDetailed
 def main(pdfname):
     #extracted = extractTextFromPdf("./pdf_files/"+pdfname+".pdf")
     #extractedDetailed = extractTextFromPdfWithFonts("./pdf_files/"+pdfname+".pdf")
-    extracted = extractTextFromPdf("./uploads/"+pdfname)
+    extracted = extractTextFromPdf(pdfname)
     extractedDetailed = extractTextFromPdfWithFonts("./uploads/"+pdfname)
     # Call print with functions and reduce lines. Also strip before return
     #Borrower1Name = findBorrower1Name(extracted).group()

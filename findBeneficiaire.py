@@ -21,7 +21,8 @@ def findBeneficiaire(text):
                 smalben = beneficiare
                 benindx = beneficiare.span()[0]
     if benindx == bignum:
-        raise ValueError('Non trouve BENEFICIAIRE')
+        smalben = "cant find"
+        return smalben
     
     global beneficiaireEnd
     beneficiaireEnd = smalben.span()[1]

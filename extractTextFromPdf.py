@@ -10,6 +10,7 @@ def DuplicateRemover(mylist):
     return mylist
 
 def extractTextFromPdf(filename):
+    filename = "./uploads/" + filename
     with open(os.devnull, "w") as f, contextlib.redirect_stderr(f):
     # Preventing error messages by redirecting stderr
     # Because I keep getting "mupdf: kid not found in parent's kids array" but the code still works
