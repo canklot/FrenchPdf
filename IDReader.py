@@ -28,7 +28,9 @@ def pdf2Image(path):
 def getData(img):
     cwd = os.getcwd()
     traineddataPath= "--tessdata-dir "+cwd+"/tessdata/"
-    if type(img) != bytearray:
+    img_type = type(img)
+    if img_type not in  (bytearray,bytes) :
+
         success, encoded_image = cv2.imencode('.png', img)
         img = encoded_image.tobytes()
     mrz = read_mrz(img,save_roi=True, extra_cmdline_params=traineddataPath + ' --oem 0 -c tessedit_write_images=true') # ,extra_cmdline_params='--oem 0'
