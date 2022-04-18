@@ -82,7 +82,7 @@ def main (fileName):
 if __name__ == '__main__':
     if (len(sys.argv)<2):
         print("No arguments. Using default file")
-        defaultfile = "sishi_passport.pdf"
+        defaultfile = "IRchina.png"
         main(defaultfile)
     else:
         main(sys.argv[1])
