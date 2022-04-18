@@ -11,6 +11,7 @@ from skimage import io as skimage_io
 from skimage import transform, morphology, filters, measure, color,img_as_ubyte
 
 
+# return numpyarray not bytes. There is byte convertion here
 def imageExtract(filename):
     cwd = os.getcwd()
     doc = fitz.open(cwd+"/uploads/"+filename)
@@ -32,9 +33,6 @@ def imageExtract(filename):
             pix = None
     return imageList
 # First test it then return them in a list. May also save them fur debug
-
-def remove_color(hsv_start, hsv_end):
-    pass
 
 def resize(img_in):
     max_width = 900
@@ -92,31 +90,36 @@ def waitUntilX(window):
 def find_id(img):
     pass
 
+def white_borders(img,thickness):
+    img_height=img.shape[0]
+    img_width=img.shape[1]
+    percent_to_pix = int(img_width * thickness / 100)
+    cv2.line(img,(0,0),(0,img_height),(255,255,255),percent_to_pix)
+    cv2.line(img,(img_width,0),(img_width,img_height),(255,255,255),percent_to_pix)
+    plt.imshow(img, interpolation='nearest')
+    plt.title('white border')
+    plt.show()
+    return img
 
-def removeBorder(img_in):
-    
-    gray = skimage_io.imread(img_in, as_gray=True, plugin='imageio')
-    
+def cropBorder(img,crop_percent):
+    print(type(img))
+    img_height=img.shape[0]
+    img_width=img.shape[1]
+    new_top = int(img_height - (img_height * crop_percent / 100))
+    new_right = int(img_width - (img_width * crop_percent / 100))
+    new_bottom = int(img_height * crop_percent / 100)
+    new_left = int(img_width * crop_percent / 100)
+    cropped = img[new_bottom:new_top, new_left:new_right]
 
-    gray = removeSmallBlobs(gray)
-
-    resized , scalefactor = resize(gray)
-    cs = measure.find_contours(resized, 0.5) #0.5
-
-    # Display the image and plot all contours found
-    fig, ax = plt.subplots()
-    ax.imshow(resized,cmap=plt.cm.gray)#, cmap=plt.cm.gray
-
-    for contour in cs:
-        ax.plot(contour[:, 1], contour[:, 0], linewidth=2)
-
-    ax.axis('image')
-    ax.set_xticks([])
-    ax.set_yticks([])
+    plt.imshow(cropped, interpolation='nearest')
+    plt.title('cropped_border')
     plt.show()
 
+    return cropped
+    
+
 def adaptive_gaussian(img):
-    img = img_as_ubyte(img)
+    
     img = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
     img = cv2.medianBlur(img,5)
     th3 = cv2.adaptiveThreshold(img,255,cv2.ADAPTIVE_THRESH_GAUSSIAN_C, cv2.THRESH_BINARY,11,2)

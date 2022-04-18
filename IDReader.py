@@ -5,10 +5,12 @@ import PIL
 import numpy as np
 from pdf2image import convert_from_path
 from IDReaderVanilla import getDataVanilla
-from imageExtractor import imageExtract, colorFilter,removeBorder,removeSmallBlobs
+from imageExtractor import imageExtract, colorFilter,removeSmallBlobs, cropBorder,white_borders
 from matplotlib import pyplot as plt
-import imageio as iio
+from matplotlib import image as pltimage
+import io
 import detect_mrz_zhang
+import cv2
 
 
 def pdf2Image(path):
@@ -23,31 +25,24 @@ def pdf2Image(path):
         # Maybe find a way to combine all images
     combineImages(saveNameList,cwd+"/uploads/")
 
-def combineImages(imageNameList,savepath):
-    imgs    = [ PIL.Image.open(i) for i in imageNameList ]
-    # for a vertical stacking it is simple: use vstack
-    min_shape = sorted( [(np.sum(i.size), i.size ) for i in imgs])[0][1]
-    imgs_comb = np.vstack( (np.asarray( i.resize(min_shape) ) for i in imgs ) )
-    imgs_comb = PIL.Image.fromarray( imgs_comb)
-    imgs_comb.save( savepath+'verticalCombined.png' )
-
-def getData(fileIn):
+def getData(img):
     cwd = os.getcwd()
     traineddataPath= "--tessdata-dir "+cwd+"/tessdata/"
-    mrz = read_mrz(fileIn,save_roi=True, extra_cmdline_params=traineddataPath + ' --oem 0 -c tessedit_write_images=true') # ,extra_cmdline_params='--oem 0'
+    if type(img) != bytearray:
+        success, encoded_image = cv2.imencode('.png', img)
+        img = encoded_image.tobytes()
+    mrz = read_mrz(img,save_roi=True, extra_cmdline_params=traineddataPath + ' --oem 0 -c tessedit_write_images=true') # ,extra_cmdline_params='--oem 0'
     
     if mrz != None:
         roiImg = mrz.aux['roi']
-        #plt.imshow(roiImg, interpolation='nearest')
-        #plt.gray()
-        #plt.show()
+        plt.imshow(roiImg, interpolation='nearest')
+        plt.gray()
+        plt.show()
     print("debug")
     return mrz
 
 def read_image(filename):
-    with open(filename, "rb") as image:
-        img = image.read()
-        #byte_img = bytearray(img)
+    img=  cv2.imread(filename)
     return img
 
 def pipeline_normal():
@@ -75,18 +70,17 @@ def main (fileName):
         mrz = getData(image)
         if (mrz !=None) and (mrz.valid_score > 50):
             break
-    """ else:
-        
-        imageList.append(img)
-        img = colorFilter(imageList)[0] # filter for images
-        mrz = getData(img) """
-        # if file is image pass path. Actually it might be better to ust pass image and read image myself
+        #image = cropBorder(image, 7.5)
+        image = white_borders(image,14.5)
+        mrz = getData(image)
+        if (mrz !=None) and (mrz.valid_score > 50):
+            break
     excelFill(mrz)
   
 if __name__ == '__main__':
     if (len(sys.argv)<2):
         print("No arguments. Using default file")
-        defaultfile = "IR.png"
+        defaultfile = "sishi_passport.pdf"
         main(defaultfile)
     else:
         main(sys.argv[1])
