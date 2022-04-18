@@ -19,7 +19,8 @@ coorDict={"type"            :(1,0 ),
           "height"          :(1,14),
           "motherName"      :(1,15),
           "job"             :(1,16),
-          "picture"         :(1,17)
+          "picture"         :(1,17),
+          "valid_score"     :(1,18)
           }
 def countryCodes(code_in):
     cwd = os.getcwd()
