@@ -24,15 +24,8 @@ coorDict={"type"            :(1,0 ),
           "valid_score"     :(1,18)
           }
 def countryCodes(code_in):
-    cwd = os.getcwd()
-    filename = "/files/ISO Country code.xls"
-    df = pd.read_excel (cwd+filename) # I can hard code the excel file. So I dont have to read file or use pandas
-    countryCodesDict = dict(df.values)
-    print(countryCodesDict)
-    #print (df)
-    # index 0 is out of bounds for axis 0 with size 0
-    if code_in in df.values:
-        country=df.loc[df.code==code_in, 'country'].values[0]
+    if code_in in country_codes:
+        country=country_codes[code_in]
         return country
     else: return "cant find"
 

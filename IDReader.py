@@ -82,7 +82,7 @@ def main (fileName):
 if __name__ == '__main__':
     if (len(sys.argv)<2):
         print("No arguments. Using default file")
-        defaultfile = "IRchina.png"
+        defaultfile = "CNI.pdf"
         main(defaultfile)
     else:
         main(sys.argv[1])

@@ -17,20 +17,26 @@ def imageExtract(filename):
     doc = fitz.open(cwd+"/uploads/"+filename)
     imageList = []
     for i in range(len(doc)):
-        for img in doc.getPageImageList(i):
+        page_images = doc.get_page_images(i)
+        for img in page_images:
             xref = img[0]
             pix = fitz.Pixmap(doc, xref)
-            if pix.n < 5:       # this is GRAY or RGB
+            if pix.colorspace == None:
+                continue
+            elif pix.n == 1:      
+                pix = np.frombuffer(buffer=pix.samples, dtype=np.uint8).reshape((pix.height, pix.width, -1))
+                imageList.append(pix)
+            elif pix.n < 5:       # this is GRAY or RGB
                 #pix.writePNG("p%s-%s.png" % (i, xref))
                 #pix =  pix.pil_tobytes(format="PNG", optimize=True)
-                pix = PIL.Image.frombytes("RGB", [pix.width, pix.height], pix.samples)
-                pix = np.array(pix)
+                
+                pix = np.frombuffer(buffer=pix.samples, dtype=np.uint8).reshape((pix.height, pix.width, 3))
                 imageList.append(pix)
             else:               # CMYK: convert to RGB first
                 pix1 = fitz.Pixmap(fitz.csRGB, pix)
                 #pix =  pix.pil_tobytes(format="JPG", optimize=True)
-                pix = PIL.Image.frombytes("RGB", [pix.width, pix.height], pix.samples)
-                pix = np.array(pix)
+                pix = np.frombuffer(buffer=pix.samples, dtype=np.uint8).reshape((pix.height, pix.width, 3))
+                
                 imageList.append(pix)
                 #pix1.writePNG("p%s-%s.jpg" % (i, xref))
                 pix1 = None
