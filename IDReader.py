@@ -11,6 +11,7 @@ from matplotlib import image as pltimage
 import io
 import detect_mrz_zhang
 import cv2
+import math
 
 
 def pdf2Image(path):
@@ -40,7 +41,57 @@ def getData(img):
         plt.imshow(roiImg, interpolation='nearest')
         plt.gray()
         plt.show()
-    print("debug")
+    print("mrz results")
+    return mrz
+
+def calculate_checksum(str_numbers):
+    seven_three_one = [7,3,1,7,3,1,7,3,1,7,3,1]
+    numbers = [ int(x) for x in list(str_numbers) ] 
+    sum = 0
+    # ends with shortests
+    for num, sto in zip(numbers,seven_three_one):
+        sum += num * sto
+    remainder = sum % 10
+    return remainder
+
+
+def check_france(mrz):
+    
+    if mrz.country == "FRA":
+        mrz.mrz_type = "TDF"
+        raw_text = mrz.aux['raw_text']
+        mrz.last_name = raw_text[5:30].replace("<","")
+        mrz.surname = mrz.last_name
+        #issuanceoffice1
+        #issuanceoffice2
+        #issuance_date
+        #issuanceoffice1
+        #issue_number3
+        
+        mrz.number = raw_text[37:49]
+        mrz.check_number =  raw_text[49]
+        mrz.names = raw_text[50:63].replace("<<"," ")
+        mrz.date_of_birth = raw_text[64:70]
+        mrz.check_date_of_birth = raw_text[70]
+        mrz.sex = raw_text[71]
+        mrz.check_composite = raw_text[72]
+
+        # 731 check
+        
+        cal_check_numbers = calculate_checksum( mrz.number)
+        cal_check_date_of_birth = calculate_checksum( mrz.date_of_birth)
+        
+        mrz.valid_date_of_birth = True if cal_check_date_of_birth  == int(mrz.check_date_of_birth)  else False
+        mrz.valid_check_number = True if cal_check_numbers  == int(mrz.check_number)  else False
+
+        mrz.expiration_date = " "
+        mrz.nationality = " "
+
+        fra_valid_score = 20
+        if mrz.valid_date_of_birth : fra_valid_score += 35
+        if mrz.valid_check_number : fra_valid_score += 35
+        mrz.valid_score = fra_valid_score
+    print("viva la revolution")
     return mrz
 
 def read_image(filename):
@@ -70,6 +121,7 @@ def main (fileName):
         #image = removeBorder(image)
         #image = removeSmallBlobs(image)
         mrz = getData(image)
+        if (mrz !=None): mrz = check_france(mrz)
         if (mrz !=None) and (mrz.valid_score > 50):
             break
         #image = cropBorder(image, 7.5)
@@ -87,3 +139,6 @@ if __name__ == '__main__':
     else:
         main(sys.argv[1])
 # Tesseract white list galiba çalışmıyor. File3'de euro simgesi var idnumber da
+
+#if mrz_lines[0][0].upper() == 'V': return 'MRVB' 
+#return "TDF" if mrz_lines[0][2:5].upper() == "FRA" else 'TD2'

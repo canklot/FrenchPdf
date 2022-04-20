@@ -15,32 +15,46 @@ from skimage import transform, morphology, filters, measure, color,img_as_ubyte
 def imageExtract(filename):
     cwd = os.getcwd()
     doc = fitz.open(cwd+"/uploads/"+filename)
+    
     imageList = []
     for i in range(len(doc)):
         page_images = doc.get_page_images(i)
-        for img in page_images:
-            xref = img[0]
-            pix = fitz.Pixmap(doc, xref)
-            if pix.colorspace == None:
-                continue
-            elif pix.n == 1:      
+        # 5 is colorspace
+        if any( pimg[5] == "" for pimg in page_images):
+            for page in doc:  # iterate through the pages
+                zoom_x = 3.5  # horizontal zoom
+                zoom_y = 3.5 # vertical zoom
+                mat = fitz.Matrix(zoom_x, zoom_y) 
+                pix = page.get_pixmap(matrix=mat)  # render page to an image
                 pix = np.frombuffer(buffer=pix.samples, dtype=np.uint8).reshape((pix.height, pix.width, -1))
                 imageList.append(pix)
-            elif pix.n < 5:       # this is GRAY or RGB
-                #pix.writePNG("p%s-%s.png" % (i, xref))
-                #pix =  pix.pil_tobytes(format="PNG", optimize=True)
-                
-                pix = np.frombuffer(buffer=pix.samples, dtype=np.uint8).reshape((pix.height, pix.width, 3))
-                imageList.append(pix)
-            else:               # CMYK: convert to RGB first
-                pix1 = fitz.Pixmap(fitz.csRGB, pix)
-                #pix =  pix.pil_tobytes(format="JPG", optimize=True)
-                pix = np.frombuffer(buffer=pix.samples, dtype=np.uint8).reshape((pix.height, pix.width, 3))
-                
-                imageList.append(pix)
-                #pix1.writePNG("p%s-%s.jpg" % (i, xref))
-                pix1 = None
-            pix = None
+                plt.imshow(pix, interpolation='nearest')
+                plt.title('All_page_img')
+                plt.show()
+        else:
+            for img in page_images:
+                xref = img[0]
+                pix = fitz.Pixmap(doc, xref)
+                if pix.colorspace == None:
+                    continue
+                elif pix.n == 1:      
+                    pix = np.frombuffer(buffer=pix.samples, dtype=np.uint8).reshape((pix.height, pix.width, -1))
+                    imageList.append(pix)
+                elif pix.n < 5:       # this is GRAY or RGB
+                    #pix.writePNG("p%s-%s.png" % (i, xref))
+                    #pix =  pix.pil_tobytes(format="PNG", optimize=True)
+                    
+                    pix = np.frombuffer(buffer=pix.samples, dtype=np.uint8).reshape((pix.height, pix.width, 3))
+                    imageList.append(pix)
+                else:               # CMYK: convert to RGB first
+                    pix1 = fitz.Pixmap(fitz.csRGB, pix)
+                    #pix =  pix.pil_tobytes(format="JPG", optimize=True)
+                    pix = np.frombuffer(buffer=pix.samples, dtype=np.uint8).reshape((pix.height, pix.width, 3))
+                    
+                    imageList.append(pix)
+                    #pix1.writePNG("p%s-%s.jpg" % (i, xref))
+                    pix1 = None
+                pix = None
     return imageList
 # First test it then return them in a list. May also save them fur debug
 

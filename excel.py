@@ -27,7 +27,7 @@ def countryCodes(code_in):
     if code_in in country_codes:
         country=country_codes[code_in]
         return country
-    else: return "cant find"
+    else: return " " #Used to be cant find but blank is better looking
 
 #mrzType,number,names,surname,sex,birthday
 def excelFill(mrz):
