@@ -59,7 +59,7 @@ def excelFill(mrz):
                 elif value == "M": value="Homme"
         
                 
-        else: value = "cant find"
+        else: value = " "
         write_sheet1.write(*coorDict[field], value) # Write values one by one
         
     fileName= fileName.replace(".xls","")# prevent .xls repating in the file name

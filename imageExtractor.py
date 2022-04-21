@@ -36,15 +36,6 @@ def imageExtract(filename):
 
                 #pix = crop_numpy(pix)
                 pix = crop_convex_hull(pix)
-
-                """ 
-                PIL_image = PIL.Image.fromarray(np.uint8(pix)).convert('RGB')
-                imageBox = PIL_image.getbbox()
-                cropped = PIL_image.crop(imageBox)
-                plt.imshow(cropped, interpolation='nearest')
-                plt.title('cropped')
-                plt.show() 
-                pix= cropped"""
                 imageList.append(pix)
 
                  
@@ -93,19 +84,6 @@ def crop_convex_hull(im):
     plt.show()
     return cropped
 
-def crop_numpy(image_data):
-    image_data_bw = image_data.max(axis=2)
-    non_empty_columns = np.where(image_data_bw.max(axis=0)==255)[0]
-    non_empty_rows = np.where(image_data_bw.max(axis=1)==255)[0]
-    cropBox = (min(non_empty_rows), max(non_empty_rows), min(non_empty_columns), max(non_empty_columns))
-
-    image_data_new = image_data[cropBox[0]:cropBox[1]+1, cropBox[2]:cropBox[3]+1 , :]
-
-    plt.imshow(image_data_new, interpolation='nearest')
-    plt.title('image_data_new')
-    plt.show()
-
-    return image_data_new
 
 def resize(img_in):
     max_width = 900
@@ -122,32 +100,6 @@ def resize(img_in):
     
     return resized, scale_percent
 
-def removeSmallBlobs(img_in):
-    if not isinstance(img_in, np.ndarray):
-        pil_image = PIL.Image.open(io.BytesIO(img_in))
-        img_in = np.array(pil_image)  
-        img_in = color.rgb2gray(img_in)
-    img_in = cv2.convertScaleAbs(img_in)
-    img_in, scale_percent = resize(img_in)
-    contours, hierarchy = cv2.findContours(img_in,cv2.RETR_TREE, cv2.CHAIN_APPROX_SIMPLE)
-
-    #scale_percent = int(scale_percent)-100
-    threshhold_blob_area = 2 * scale_percent /100
-
-    for i in range (1,len(contours)):
-        index_level = int(hierarchy[0][i][1])
-        if index_level <= i :
-            cnt = contours[i]
-            area = cv2.contourArea(cnt)
-            print(area)
-            if area <= threshhold_blob_area:
-                cv2.drawContours(img_in,[cnt],-1,255,-1,1)
-
-    cv2.imshow("blobs_removed", img_in)
-    waitUntilX("blobs_removed")
-    cv2.destroyAllWindows()
-
-    return img_in
 
 def waitUntilX(window):
     while True:
@@ -160,9 +112,11 @@ def waitUntilX(window):
             break        
     cv2.destroyAllWindows()
 
-def find_id(img):
-    pass
-
+def white_borders_skimage(img,thickness):
+    img_height=img.shape[0]
+    img_width=img.shape[1]
+    percent_to_pix = int(img_width * thickness / 100)
+    
 def white_borders(img,thickness):
     img_height=img.shape[0]
     img_width=img.shape[1]
@@ -190,16 +144,6 @@ def cropBorder(img,crop_percent):
 
     return cropped
     
-
-def adaptive_gaussian(img):
-    
-    img = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
-    img = cv2.medianBlur(img,5)
-    th3 = cv2.adaptiveThreshold(img,255,cv2.ADAPTIVE_THRESH_GAUSSIAN_C, cv2.THRESH_BINARY,11,2)
-    plt.imshow(th3, interpolation='nearest', cmap='gray')
-    plt.title('adaptive_gaussian')
-    plt.show()
-    return th3
 
 
 def colorFilter(imageList):

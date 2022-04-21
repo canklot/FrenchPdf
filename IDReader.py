@@ -5,7 +5,7 @@ import PIL
 import numpy as np
 from pdf2image import convert_from_path
 from IDReaderVanilla import getDataVanilla
-from imageExtractor import imageExtract, colorFilter,removeSmallBlobs, cropBorder,white_borders
+from imageExtractor import imageExtract, cropBorder,white_borders
 from matplotlib import pyplot as plt
 from matplotlib import image as pltimage
 import io
@@ -43,6 +43,7 @@ def getData(img):
         plt.title('ROI')
         plt.show()
     print("mrz results")
+    if (mrz !=None): mrz = check_france(mrz)
     return mrz
 
 def calculate_checksum(str_numbers):
@@ -122,7 +123,7 @@ def main (fileName):
         #image = removeBorder(image)
         #image = removeSmallBlobs(image)
         mrz = getData(image)
-        if (mrz !=None): mrz = check_france(mrz)
+        #if (mrz !=None): mrz = check_france(mrz)
         if (mrz !=None) and (mrz.valid_score > 50):
             break
         #image = cropBorder(image, 7.5)
@@ -135,7 +136,7 @@ def main (fileName):
 if __name__ == '__main__':
     if (len(sys.argv)<2):
         print("No arguments. Using default file")
-        defaultfile = "passeport christelle.pdf"
+        defaultfile = "1.3. CNI - Mohamed DJEDAI.pdf"
         main(defaultfile)
     else:
         main(sys.argv[1])
