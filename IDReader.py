@@ -40,6 +40,7 @@ def getData(img):
         roiImg = mrz.aux['roi']
         plt.imshow(roiImg, interpolation='nearest')
         plt.gray()
+        plt.title('ROI')
         plt.show()
     print("mrz results")
     return mrz
@@ -57,7 +58,7 @@ def calculate_checksum(str_numbers):
 
 def check_france(mrz):
     
-    if mrz.country == "FRA":
+    if mrz.type == "ID" and mrz.country == "FRA" and mrz.valid == False:
         mrz.mrz_type = "TDF"
         raw_text = mrz.aux['raw_text']
         mrz.last_name = raw_text[5:30].replace("<","")
@@ -134,7 +135,7 @@ def main (fileName):
 if __name__ == '__main__':
     if (len(sys.argv)<2):
         print("No arguments. Using default file")
-        defaultfile = "CNI.pdf"
+        defaultfile = "passeport christelle.pdf"
         main(defaultfile)
     else:
         main(sys.argv[1])

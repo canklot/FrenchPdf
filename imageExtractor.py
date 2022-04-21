@@ -9,6 +9,8 @@ from matplotlib import pyplot as plt
 from matplotlib.colors import hsv_to_rgb
 from skimage import io as skimage_io 
 from skimage import transform, morphology, filters, measure, color,img_as_ubyte
+from skimage.morphology import convex_hull_image
+from skimage.color import rgb2gray
 
 
 # return numpyarray not bytes. There is byte convertion here
@@ -27,10 +29,26 @@ def imageExtract(filename):
                 mat = fitz.Matrix(zoom_x, zoom_y) 
                 pix = page.get_pixmap(matrix=mat)  # render page to an image
                 pix = np.frombuffer(buffer=pix.samples, dtype=np.uint8).reshape((pix.height, pix.width, -1))
-                imageList.append(pix)
+                
                 plt.imshow(pix, interpolation='nearest')
                 plt.title('All_page_img')
                 plt.show()
+
+                #pix = crop_numpy(pix)
+                pix = crop_convex_hull(pix)
+
+                """ 
+                PIL_image = PIL.Image.fromarray(np.uint8(pix)).convert('RGB')
+                imageBox = PIL_image.getbbox()
+                cropped = PIL_image.crop(imageBox)
+                plt.imshow(cropped, interpolation='nearest')
+                plt.title('cropped')
+                plt.show() 
+                pix= cropped"""
+                imageList.append(pix)
+
+                 
+
         else:
             for img in page_images:
                 xref = img[0]
@@ -57,6 +75,37 @@ def imageExtract(filename):
                 pix = None
     return imageList
 # First test it then return them in a list. May also save them fur debug
+
+def crop_convex_hull(im):
+    im1 = 1 - rgb2gray(im)
+    threshold = 0.65
+    im1[im1 <= threshold] = 0
+    im1[im1 > threshold] = 1
+    chull = convex_hull_image(im1)
+    plt.imshow(chull)
+    plt.title('convex hull in the binary image')
+    plt.show()
+    imageBox = PIL.Image.fromarray((chull*255).astype(np.uint8)).getbbox()
+    cropped = PIL.Image.fromarray(im).crop(imageBox)
+    cropped = np.asarray(cropped)
+    plt.imshow(cropped)
+    plt.title('crop_convex_hull')
+    plt.show()
+    return cropped
+
+def crop_numpy(image_data):
+    image_data_bw = image_data.max(axis=2)
+    non_empty_columns = np.where(image_data_bw.max(axis=0)==255)[0]
+    non_empty_rows = np.where(image_data_bw.max(axis=1)==255)[0]
+    cropBox = (min(non_empty_rows), max(non_empty_rows), min(non_empty_columns), max(non_empty_columns))
+
+    image_data_new = image_data[cropBox[0]:cropBox[1]+1, cropBox[2]:cropBox[3]+1 , :]
+
+    plt.imshow(image_data_new, interpolation='nearest')
+    plt.title('image_data_new')
+    plt.show()
+
+    return image_data_new
 
 def resize(img_in):
     max_width = 900
