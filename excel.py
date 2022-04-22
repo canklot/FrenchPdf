@@ -35,17 +35,18 @@ def excelFill(mrz):
     fileName = "template_IdPass.xls"
     read_book = xlrd.open_workbook(path+ fileName, formatting_info=True) #Make Readable Copy
     write_book = copy(read_book) #Make Writeable Copy
-    write_sheet1 = write_book.get_sheet(0) #Get sheet 1 in writeable copy
+    write_sheet1 = write_book.get_sheet(0) #Get sheet 1 in writeable cop
     
     #write_sheet1.write(1, 11, 'test') #Write 'test' to cell (B, 11)
     for field in coorDict:
+        style0 = xlwt.easyxf('font: color-index black')
         if hasattr(mrz, field):    
             value =  getattr(mrz, field)
             if field == "type":
                 docType = value
                 if value == "IR":
                     value = "Carte de resident"
-            elif "date" in field: #Convert date to human readeble form
+            elif( "date" in field) and (field != None) and (field != " ") and (field != ""): #Convert date to human readeble form
                 value= str(value[4:6])+"/"+str(value[2:4])+"/"+str(value[:2])
             elif field == "country":
                 value = countryCodes(value)
@@ -57,10 +58,30 @@ def excelFill(mrz):
             elif field == "sex":
                 if value == "F": value="Femme"
                 elif value == "M": value="Homme"
+                
+            if field == "date_of_birth":
+                if mrz.valid_date_of_birth == True:
+                # dont make elif date formatter consumes it first
+                    style0 = xlwt.easyxf('font: color-index green')
+                elif mrz.valid_date_of_birth == False:
+                    style0 = xlwt.easyxf('font: color-index red')
+            elif field == "number" :
+                if mrz.valid_check_number == True:
+                # dont make elif date formatter consumes it first
+                    style0 = xlwt.easyxf('font: color-index green')
+                elif  mrz.valid_check_number == False:
+                    style0 = xlwt.easyxf('font: color-index red')
+            elif field == "expiration_date":
+                if mrz.valid_expiration_date == True:
+                # dont make elif date formatter consumes it first
+                    style0 = xlwt.easyxf('font: color-index green')
+                elif  mrz.valid_expiration_date == False:
+                    style0 = xlwt.easyxf('font: color-index red')
         
                 
         else: value = " "
-        write_sheet1.write(*coorDict[field], value) # Write values one by one
+
+        write_sheet1.write(*coorDict[field], value, style0) # Write values one by one
         
     fileName= fileName.replace(".xls","")# prevent .xls repating in the file name
     write_book.save(path + fileName + "Final.xls") #Enter the same as the old path to write over

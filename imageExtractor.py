@@ -10,7 +10,7 @@ from matplotlib.colors import hsv_to_rgb
 from skimage import io as skimage_io 
 from skimage import transform, morphology, filters, measure, color,img_as_ubyte
 from skimage.morphology import convex_hull_image
-from skimage.color import rgb2gray
+from skimage.color import rgb2gray,hsv2rgb
 
 
 # return numpyarray not bytes. There is byte convertion here
@@ -37,9 +37,7 @@ def imageExtract(filename):
                 #pix = crop_numpy(pix)
                 pix = crop_convex_hull(pix)
                 imageList.append(pix)
-
                  
-
         else:
             for img in page_images:
                 xref = img[0]
@@ -48,27 +46,42 @@ def imageExtract(filename):
                     continue
                 elif pix.n == 1:      
                     pix = np.frombuffer(buffer=pix.samples, dtype=np.uint8).reshape((pix.height, pix.width, -1))
-                    imageList.append(pix)
+                    mymax = pix.max()
+                    if pix.max() == 255 :
+                        pix = (pix - np.min(pix))/np.ptp(pix)
                 elif pix.n < 5:       # this is GRAY or RGB
                     #pix.writePNG("p%s-%s.png" % (i, xref))
                     #pix =  pix.pil_tobytes(format="PNG", optimize=True)
-                    
                     pix = np.frombuffer(buffer=pix.samples, dtype=np.uint8).reshape((pix.height, pix.width, 3))
-                    imageList.append(pix)
+                    
                 else:               # CMYK: convert to RGB first
                     pix1 = fitz.Pixmap(fitz.csRGB, pix)
                     #pix =  pix.pil_tobytes(format="JPG", optimize=True)
                     pix = np.frombuffer(buffer=pix.samples, dtype=np.uint8).reshape((pix.height, pix.width, 3))
-                    
-                    imageList.append(pix)
                     #pix1.writePNG("p%s-%s.jpg" % (i, xref))
-                    pix1 = None
+                    #pix1 = None
+
+                plt.imshow(pix)
+                plt.title('extract')
+                plt.show()
+
+                pix = crop_convex_hull(pix)
+                imageList.append(pix)
                 pix = None
     return imageList
 # First test it then return them in a list. May also save them fur debug
 
 def crop_convex_hull(im):
-    im1 = 1 - rgb2gray(im)
+    if im.shape[2] == 3:
+        im = rgb2gray(im)
+    plt.imshow(im,cmap="gray")
+    plt.title('amigray')
+    plt.show()
+    im1 = 1 - im
+    plt.imshow(im1,cmap="gray")
+    plt.title('after substraction')
+    plt.show()
+    # do some blur or closing etc
     threshold = 0.65
     im1[im1 <= threshold] = 0
     im1[im1 > threshold] = 1
@@ -77,6 +90,8 @@ def crop_convex_hull(im):
     plt.title('convex hull in the binary image')
     plt.show()
     imageBox = PIL.Image.fromarray((chull*255).astype(np.uint8)).getbbox()
+    # add margin
+    margin_amount = imageBox[0]
     cropped = PIL.Image.fromarray(im).crop(imageBox)
     cropped = np.asarray(cropped)
     plt.imshow(cropped)
