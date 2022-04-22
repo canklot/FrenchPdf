@@ -108,7 +108,10 @@ def pipeline_normal():
     pass
 def pipeline_filter():
     pass
-
+def check_valid(mrz):
+    mrz = getData(image)
+    if (mrz !=None) and (mrz.valid_score > 50):
+        pass
 
 def main (fileName):
     cwd = os.getcwd()
@@ -123,24 +126,39 @@ def main (fileName):
     #imageList = colorFilter(imageList)
 
     for image in imageList:
-        #mrz_zhang = detect_mrz_zhang.detect_mrz(image)
-        #image = removeBorder(image)
-        #image = removeSmallBlobs(image)
+       
         mrz = getData(image)
-        #if (mrz !=None): mrz = check_france(mrz)
         if (mrz !=None) and (mrz.valid_score > 50):
             break
-        #image = cropBorder(image, 7.5)
+        
+        np270 = np.rot90(image,3)
+
+        plt.imshow(np270,cmap="gray")
+        plt.title('rotated')
+        plt.show()
+        
+
+        mrz = getData(np270)
+        if (mrz !=None) and (mrz.valid_score > 50):
+            break
+
+        mrz = getData(image_270)
+        if (mrz !=None) and (mrz.valid_score > 50):
+            break
+
         image = white_borders(image,14.5)
         mrz = getData(image)
         if (mrz !=None) and (mrz.valid_score > 50):
             break
+
+        
+
     excelFill(mrz)
   
 if __name__ == '__main__':
     if (len(sys.argv)<2):
         print("No arguments. Using default file")
-        defaultfile = "extract3.png"
+        defaultfile = "DenisFloch_ID_Apr19.pdf"
         main(defaultfile)
     else:
         main(sys.argv[1])

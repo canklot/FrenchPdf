@@ -61,9 +61,9 @@ def imageExtract(filename):
                     #pix1.writePNG("p%s-%s.jpg" % (i, xref))
                     #pix1 = None
 
-                plt.imshow(pix)
+                """ plt.imshow(pix)
                 plt.title('extract')
-                plt.show()
+                plt.show() """
 
                 pix = crop_convex_hull(pix)
                 imageList.append(pix)
@@ -74,20 +74,20 @@ def imageExtract(filename):
 def crop_convex_hull(im):
     if im.shape[2] == 3:
         im = rgb2gray(im)
-    plt.imshow(im,cmap="gray")
+    """ plt.imshow(im,cmap="gray")
     plt.title('amigray')
-    plt.show()
+    plt.show() """
     im1 = 1 - im # Takes negative of the image
-    plt.imshow(im1,cmap="gray")
+    """ plt.imshow(im1,cmap="gray")
     plt.title('after substraction')
-    plt.show()
+    plt.show() """
     # do some blur or closing etc
     threshold = 0.65
     im1[im1 <= threshold] = 0
     im1[im1 > threshold] = 1
-    plt.imshow(im1,cmap="gray")
+    """ plt.imshow(im1,cmap="gray")
     plt.title('after threshold')
-    plt.show()
+    plt.show() """
     chull = convex_hull_image(im1)
     plt.imshow(chull)
     plt.title('convex hull in the binary image')
