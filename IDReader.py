@@ -48,7 +48,11 @@ def getData(img):
 
 def calculate_checksum(str_numbers):
     seven_three_one = [7,3,1,7,3,1,7,3,1,7,3,1]
-    numbers = [ int(x) for x in list(str_numbers) ] 
+    letter_values = {"A":10,"B":11,"C":12,"D":13,"E":14,"F":15,"G":16,"H":17,"I":18,"J":19,"K":20,"L":21,"M":22,"N":23,"O":24,"P":25,"Q":26,"R":27,"S":28,"T":29,"U":30,"V":31,"W":32,"X":33,"Y":34,"Z":35}
+    numbers = [ x for x in list(str_numbers) ] # inte çevirmeyi kaldırdım geri koy alta
+    numbers = [ letter_values[element] if element in letter_values  else element for element in numbers]
+    numbers = [ int(element) if type(element) == str else element for element in numbers ]
+    #search yaparken upper yap
     sum = 0
     # ends with shortests
     for num, sto in zip(numbers,seven_three_one):
@@ -136,7 +140,7 @@ def main (fileName):
 if __name__ == '__main__':
     if (len(sys.argv)<2):
         print("No arguments. Using default file")
-        defaultfile = "wiki.jpg"
+        defaultfile = "extract3.png"
         main(defaultfile)
     else:
         main(sys.argv[1])

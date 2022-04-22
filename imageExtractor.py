@@ -77,7 +77,7 @@ def crop_convex_hull(im):
     plt.imshow(im,cmap="gray")
     plt.title('amigray')
     plt.show()
-    im1 = 1 - im
+    im1 = 1 - im # Takes negative of the image
     plt.imshow(im1,cmap="gray")
     plt.title('after substraction')
     plt.show()
@@ -85,6 +85,9 @@ def crop_convex_hull(im):
     threshold = 0.65
     im1[im1 <= threshold] = 0
     im1[im1 > threshold] = 1
+    plt.imshow(im1,cmap="gray")
+    plt.title('after threshold')
+    plt.show()
     chull = convex_hull_image(im1)
     plt.imshow(chull)
     plt.title('convex hull in the binary image')
