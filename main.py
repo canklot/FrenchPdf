@@ -26,33 +26,34 @@ from findDownPaymentDetails import findDownPaymentAndContruction, findRate,findD
 from findFee import findFeeAgency,findFeeNotary ,findWhoWillPay
 import re
 import sys
-
 from searchDetailed import searchDetailed
 
+# Inside the find functions there are a lot of regex queries.
+# You can use regex101.com for explanations
 
 def main(pdfname):
-    #extracted = extractTextFromPdf("./pdf_files/"+pdfname+".pdf")
-    #extractedDetailed = extractTextFromPdfWithFonts("./pdf_files/"+pdfname+".pdf")
-    extracted = extractTextFromPdf(pdfname)
+    extracted = extractTextFromPdf(pdfname) 
+    # Extract the plain text without fonts
     extractedDetailed = extractTextFromPdfWithFonts("./uploads/"+pdfname)
-    # Call print with functions and reduce lines. Also strip before return
-    #Borrower1Name = findBorrower1Name(extracted).group()
-    Borrower1Name = findBorrower1NameNew(extracted,extractedDetailed)
-    Borrower1Job = findborrower1workerOrOwner(extracted).group()[:-1] #removing comma
+    # Extract the text with fonts data
+    Borrower1Name   = findBorrower1NameNew(extracted,extractedDetailed)
+    # The order of the functions are important because some of them dependant to previous fields
+    Borrower1Job    = findborrower1workerOrOwner(extracted).group()[:-1] #removing comma
     Borrower1Adress = findBorrower1Adress(extracted)
     Borrower1PlaceOfBirth = findBorrowerOnePlaceOfBirth(extracted)
     Borrower1Birthday = findBorrowerOneBirthday(extracted)
-    Borrower1Nation = findBorrower1Nation(extracted)
-    Borrower1Married = findBorrower1Married(extracted)
-    PropPice = findPrice(extracted)
-    propType = findPropType(extracted)
-    PropStatus = findStatusOfProp(extracted)
-    Deadline = findDeadLine(extracted)
+    Borrower1Nation   = findBorrower1Nation(extracted)
+    Borrower1Married  = findBorrower1Married(extracted)
+    PropPice      = findPrice(extracted)
+    propType      = findPropType(extracted)
+    PropStatus    = findStatusOfProp(extracted)
+    Deadline      = findDeadLine(extracted)
     ExpretionDate = findExpDate(extracted)
-    Duration = findDuration(extracted)
-    IntRate = findRate(extracted)
-    mortgage= findMortgage(extracted)
+    Duration      = findDuration(extracted)
+    IntRate       = findRate(extracted)
+    mortgage      = findMortgage(extracted)
     whoWillPayResult = findWhoWillPay(extracted)
+
     if whoWillPayResult == "buyer":
         FeeAgency =findFeeAgency(extracted)
         FeeNotary = findFeeNotary(extracted)
@@ -62,32 +63,35 @@ def main(pdfname):
         
     BorrowerCount = countBorrowers(extracted)
     propAddress =  findPropAddress(extracted,extractedDetailed)
-    # list, text,font
+
+    # Printing the information for easy debugging
     print("----------------------------------------------------\n")
-    print("Borrower 1 Name: " + Borrower1Name.strip("., "))
+    print("Borrower 1 Name: "    + Borrower1Name.strip("., "))
     print("Borrower 1 Address: " + Borrower1Adress.strip("., "))
     print("Borrower 1 Birthday: "+ Borrower1Birthday.strip("., "))
     print("Borrower 1 Place of Birth: "+ Borrower1PlaceOfBirth.strip("., "))
-    print("Borrower 1 Nation: " + Borrower1Nation.strip("., "))
+    print("Borrower 1 Nation: "  + Borrower1Nation.strip("., "))
     print("borrower 1 Married: " + Borrower1Married.strip("., "))
-    print("Borrower 1 Job: " + Borrower1Job.strip("., "))
-    print("Borrower count: "+ str(BorrowerCount))
+    print("Borrower 1 Job: "     + Borrower1Job.strip("., "))
+    print("Borrower count: "     + str(BorrowerCount))
     print("\n")
-    print("Prop Price: " + PropPice.strip("., "))
-    print("Prop Type: " + propType)
+    print("Prop Price: "  + PropPice.strip("., "))
+    print("Prop Type: "   + propType)
     print("Prop status: " + PropStatus)
-    print("Deadline: " + Deadline)
+    print("Deadline: "    + Deadline)
     print("Expiration date: " + ExpretionDate)
+
     DownPaymentAndContruction = findDownPaymentAndContruction(extracted)
     Downpayment =  DownPaymentAndContruction["Downpayment"]
-    Contruction = DownPaymentAndContruction["Construction"]
-    print("Down payment: " + str(Downpayment).strip("., "))
-    print("Contruction: " + str(Contruction).strip("., "))
+    Contruction =  DownPaymentAndContruction["Construction"]
+
+    print("Down payment: "  + str(Downpayment).strip("., "))
+    print("Contruction: "   + str(Contruction).strip("., "))
     print("Interest rate: " + IntRate )
-    print("Duration: " + Duration)
-    print("Fee Agency: " + FeeAgency)
-    print("Fee Notatary: " + FeeNotary)
-    print("Prop Address: " +propAddress)
+    print("Duration: "      + Duration)
+    print("Fee Agency: "    + FeeAgency)
+    print("Fee Notatary: "  + FeeNotary)
+    print("Prop Address: "  +propAddress)
     
     
     
@@ -99,9 +103,9 @@ def main(pdfname):
                     "propAddress":propAddress,"propType":propType,"PropStatus":PropStatus
                     }
 
-    #exceFill("template.xls",Borrower1Name,Borrower1Adress,Borrower1Birthday,Borrower1PlaceOfBirth,Borrower1Nation,Borrower1Married,Borrower1Job )
     exceFill("template.xls", paramsDict1)
     
+    # Some documents has 2 borrowers. If borrower count is more than one find information about second borrower
     if (BorrowerCount > 1):
         Borrower2PlaceOfBirth = findBorrower2PlaceOfBirth(extracted)
         Borrower2Birthday = findBorrower2Birthday(extracted)
@@ -125,13 +129,12 @@ def main(pdfname):
                         "Borrower2Address":Borrower2Address,"Borrower2Birthday":Borrower2Birthday,"Borrower2PlaceOfBirth":Borrower2PlaceOfBirth,
                         "Borrower2Nation":Borrower2Nation,"Borrower2Married":Borrower2Married,"Borrower2Job":Borrower2Job,
                         }
-        #Borrower2Name,Borrower2Address,Borrower2Birthday,Borrower2PlaceOfBirth,Borrower2Nation,Borrower2Married,Borrower2Job
         exceFillerBorrower2("template.xls", paramsDict)    
     return "Main ended mydude"
 
 if __name__ == "__main__":
     if (len(sys.argv)<2):
-        print("no arguments, file name, given")
+        print("No arguments and file name given. Using the deault file")
         defaultfile = "file10.pdf"
         main(defaultfile)
     else:

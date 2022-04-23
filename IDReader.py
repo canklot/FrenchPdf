@@ -5,7 +5,7 @@ import PIL
 import numpy as np
 from pdf2image import convert_from_path
 from IDReaderVanilla import getDataVanilla
-from imageExtractor import imageExtract, cropBorder,white_borders
+from imageExtractor import imageExtract, white_borders
 from matplotlib import pyplot as plt
 from matplotlib import image as pltimage
 import io
@@ -131,7 +131,7 @@ def main (fileName):
 if __name__ == '__main__':
     if (len(sys.argv)<2):
         print("No arguments. Using default file")
-        defaultfile = "DenisFloch_ID_Apr19.pdf"
+        defaultfile = "1.3. CNI - Mohamed DJEDAI.pdf"
         main(defaultfile)
     else:
         main(sys.argv[1])

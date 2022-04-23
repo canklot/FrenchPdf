@@ -36,7 +36,7 @@ def findWhoWillPay(normalText):
     unicodetext = unidecode(normalText)
     regexBuyer = r"((N\s*E\s*G\s*O\s*C\s*I\s*A\s*T\s*I\s*O\s*N)|(C\s*O\s*M\s*M\s*I\s*S\s*S\s*I\s*O\s*N\s*D\s*’*?\s*A\s*G\s*E\s*N\s*C\s*E))(.{0,500})(BENEFICIAIRE)"
     regexBuyerSmall = r"((N\s*E\s*G\s*O\s*C\s*I\s*A\s*T\s*I\s*O\s*N)|(C\s*O\s*M\s*M\s*I\s*S\s*S\s*I\s*O\s*N\s*D\s*’*?\s*A\s*G\s*E\s*N\s*C\s*E))(.{0,500})(?i:BENEFICIAIRE)"
-    # or charge du beneficiaire. for file 10
+    # Some files has spaces between every letter so I added \s* for that between every letter
     regSeller =  r"((N\s*E\s*G\s*O\s*C\s*I\s*A\s*T\s*I\s*O\s*N)|(C\s*O\s*M\s*M\s*I\s*S\s*S\s*I\s*O\s*N))(.{0,500})((PROMETTANT)|(VENDEUR))"
 
     regResultBuyer = regex.search(regexBuyer,unicodetext,flags=regex.DOTALL)

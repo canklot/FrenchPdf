@@ -7,6 +7,7 @@ from werkzeug.utils import secure_filename
 import IDReader
 from findFileType import findFileType 
 
+# Flask file for web interfaces
 
 UPLOAD_FOLDER = './uploads'
 ALLOWED_EXTENSIONS = {'txt', 'pdf', 'png', 'jpg', 'jpeg', 'gif'}

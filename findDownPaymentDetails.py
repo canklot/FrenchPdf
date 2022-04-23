@@ -5,10 +5,8 @@ import regex
 from unidecode import unidecode
 from decimal import Decimal
 
-# I might be calling find total and mortgage 2 times
-
 def findTotalAmount(normalText):
-    # Use unidecode in every search. Turns out uniccode flag is something diffirent :(
+    # Use unidecode in every search. Turns out unicode flag is something diffirent :(
     unicodeText = unidecode(normalText)
     myregex = r"(C\s*O\s*U\s*T).{0,900}?((ENSEMBLE)|(Total))+?.{0,50}?\W{0,100}?\K\d[\d.:, ]+"
     regresult = regex.search(myregex,unicodeText,flags=regex.DOTALL|regex.IGNORECASE)
@@ -69,20 +67,13 @@ def findRate(normalText):
     myregex4 = r"\d[\d,\.]*?\W*?%"
     
     shortText = unicodeText[DurationEnd-999:DurationEnd+999]   
-    
     regresult =  regex.search(myregex4,shortText,flags=regex.DOTALL|regex.IGNORECASE)
-    """ regresult = regex.search(myregex2,unicodeText,flags=regex.DOTALL|regex.IGNORECASE)
-    if regresult == None:
-        regresult = regex.search(myregex1,unicodeText,flags=regex.DOTALL|regex.IGNORECASE)
-        # Preffer result with taux """
+
         
     if regresult != None:
         rate = regresult.group()
-        """ commaindx = rate.find(",")
-        rate = rate[:commaindx+3] """
         rate = rate.replace("%","").strip()
         rate = rate.replace(",",".")
-        
         rate = round(Decimal(rate), 2)
         # float has some weird behaviors they say use decimal they say
         rate = str(rate)+"%"
@@ -114,5 +105,3 @@ def findDuration(normalText):
     global DurationEnd 
     DurationEnd = regresult.span()[1]
     return Duration
-
-# Post, preffer regex in stack overflow?

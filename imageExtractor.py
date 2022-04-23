@@ -45,7 +45,7 @@ def imageExtract(filename):
             for img in page_images:
                 xref = img[0]
                 pix = fitz.Pixmap(doc, xref)
-                elif pix.n < 5: # this is GRAY or RGB
+                if pix.n < 5: # this is GRAY or RGB
                     pix = np.frombuffer(buffer=pix.samples, dtype=np.uint8).reshape((pix.height, pix.width, -1))
                     mymax = pix.max()
                     if pix.max() == 255 :
@@ -65,7 +65,7 @@ def imageExtract(filename):
                 pix = None
     return imageList
 
-def add_margin_bbox(imageBox,margin_percent):
+def add_margin_bbox(imageBox,margin_percent,im):
     # Tesseract perform better with some margin around the text
     # So add some margin on bounding box of cropped image
     # Info: PIL coordinates start from left upper corner (0,0)
@@ -86,7 +86,7 @@ def add_margin_bbox(imageBox,margin_percent):
 def crop_convex_hull(im):
     # Crops white spaces in the image
     if im.shape[2] == 3:
-        If its rgb image turn it to gray
+        #If its rgb image turn it to gray
         im = rgb2gray(im)
     # There are a lot of plt.show calls because of debuging
     """ plt.imshow(im,cmap="gray")
@@ -110,7 +110,7 @@ def crop_convex_hull(im):
     plt.show()
 
     imageBox = PIL.Image.fromarray((chull*255).astype(np.uint8)).getbbox()
-    imageBox_new = add_margin_bbox(imageBox,10)
+    imageBox_new = add_margin_bbox(imageBox,10,im)
     cropped = PIL.Image.fromarray(im).crop(imageBox_new)
     cropped = np.asarray(cropped)
 

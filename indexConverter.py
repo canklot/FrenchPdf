@@ -1,6 +1,6 @@
 # Converts detailed index to normal text index
+# They are different because one of them counts new line as one charecter other count it as 2
 import re
-
 
 def indexConvert(DetailedIndx,NormalText):
     IndexWithNewline = 0
