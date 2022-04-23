@@ -32,7 +32,7 @@ skimage_io.show()
 * You can print contourn in passport eye image.py with this function 
 
 def plot_cont(img,contours):
-# Display the image and plot all contours found
+### Display the image and plot all contours found ###
 fig, ax = plt.subplots()
 
 print("contours")
