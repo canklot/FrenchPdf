@@ -4,12 +4,10 @@ from excel import excelFill
 import PIL
 import numpy as np
 from pdf2image import convert_from_path
-from IDReaderVanilla import getDataVanilla
 from imageExtractor import imageExtract, white_borders
 from matplotlib import pyplot as plt
 from matplotlib import image as pltimage
 import io
-import detect_mrz_zhang
 import cv2
 import math
 
@@ -26,10 +24,10 @@ def getData(img):
     if mrz != None:
         # Print MRZ field on screen
         roiImg = mrz.aux['roi']
-        plt.imshow(roiImg, interpolation='nearest')
+        """ plt.imshow(roiImg, interpolation='nearest')
         plt.gray()
         plt.title('ROI')
-        plt.show()
+        plt.show() """
     if (mrz !=None): mrz = check_france(mrz)
     # Passport eye cant process old france ID. So I process it myself
     return mrz
@@ -103,18 +101,18 @@ def main (fileName):
 
         # Try again by rotating it to right
         np270 = np.rot90(image,3)
-        plt.imshow(np270,cmap="gray")
+        """ plt.imshow(np270,cmap="gray")
         plt.title('rotated 270')
-        plt.show()
+        plt.show() """
         mrz = getData(np270)
         if (mrz !=None) and (mrz.valid_score > 50):
             break
 
         # Try again by rotating it to left
         np90 = np.rot90(image,1)
-        plt.imshow(np90,cmap="gray")
+        """ plt.imshow(np90,cmap="gray")
         plt.title('rotated 90')
-        plt.show()
+        plt.show() """
         mrz = getData(np90)
         if (mrz !=None) and (mrz.valid_score > 50):
             break

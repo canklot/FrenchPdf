@@ -34,9 +34,9 @@ def imageExtract(filename):
                 pix = np.frombuffer(buffer=pix.samples, dtype=np.uint8).reshape((pix.height, pix.width, -1)) 
                 # Convert PyMuPDF.pix to numpy
                 
-                plt.imshow(pix, interpolation='nearest')
+                """ plt.imshow(pix, interpolation='nearest')
                 plt.title('All_page_img')
-                plt.show()
+                plt.show() """
 
                 pix = crop_convex_hull(pix)
                 imageList.append(pix)  
@@ -105,18 +105,18 @@ def crop_convex_hull(im):
     plt.show() """
     chull = convex_hull_image(im1)
     
-    plt.imshow(chull)
+    """ plt.imshow(chull)
     plt.title('convex hull in the binary image')
-    plt.show()
+    plt.show() """
 
     imageBox = PIL.Image.fromarray((chull*255).astype(np.uint8)).getbbox()
     imageBox_new = add_margin_bbox(imageBox,10,im)
     cropped = PIL.Image.fromarray(im).crop(imageBox_new)
     cropped = np.asarray(cropped)
 
-    plt.imshow(cropped)
+    """ plt.imshow(cropped)
     plt.title('crop_convex_hull')
-    plt.show()
+    plt.show() """
 
     return cropped
 
@@ -133,7 +133,10 @@ def white_borders(img,thickness):
     percent_to_pix = int(img_width * thickness / 100)
     cv2.line(img,(0,0),(0,img_height),(255,255,255),percent_to_pix)
     cv2.line(img,(img_width,0),(img_width,img_height),(255,255,255),percent_to_pix)
-    plt.imshow(img, interpolation='nearest')
+
+    """ plt.imshow(img, interpolation='nearest')
     plt.title('white border')
-    plt.show()
+    plt.show() """
+
     return img
+
