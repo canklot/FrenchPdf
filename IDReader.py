@@ -88,14 +88,14 @@ def check_france(mrz):
         cal_check_date_of_birth = calculate_checksum( mrz.date_of_birth)
         
         mrz.valid_date_of_birth = True if cal_check_date_of_birth  == int(mrz.check_date_of_birth)  else False
-        mrz.valid_check_number = True if cal_check_numbers  == int(mrz.check_number)  else False
+        mrz.valid_number = True if cal_check_numbers  == int(mrz.check_number)  else False
 
         mrz.expiration_date = " "
         mrz.nationality = " "
 
         fra_valid_score = 20
         if mrz.valid_date_of_birth : fra_valid_score += 35
-        if mrz.valid_check_number : fra_valid_score += 35
+        if mrz.valid_number : fra_valid_score += 35
         mrz.valid_score = fra_valid_score
     print("viva la revolution")
     return mrz

@@ -66,10 +66,10 @@ def excelFill(mrz):
                 elif mrz.valid_date_of_birth == False:
                     style0 = xlwt.easyxf('font: color-index red')
             elif field == "number" :
-                if mrz.valid_check_number == True:
+                if mrz.valid_number == True:
                 # dont make elif date formatter consumes it first
                     style0 = xlwt.easyxf('font: color-index green')
-                elif  mrz.valid_check_number == False:
+                elif  mrz.valid_number == False:
                     style0 = xlwt.easyxf('font: color-index red')
             elif field == "expiration_date":
                 if mrz.valid_expiration_date == True:
