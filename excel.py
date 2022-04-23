@@ -13,18 +13,19 @@ coorDict={"type"            :(1,0 ),
           "names"           :(1,4 ),
           "surname"         :(1,5 ),
           "date_of_birth"   :(1,6 ),
-          "place_of_birth"  :(1,7 ),
-          "address"         :(1,8 ),
-          "sex"             :(1,9 ),
-          "expiration_date" :(1,10),
+          "sex"             :(1,7 ),
+          "expiration_date" :(1,8 ),
+          "valid_score"     :(1,9 ),
+          "address"         :(1,10),
           "authority"       :(1,12),
           "colorOfEye"      :(1,13),
           "height"          :(1,14),
           "motherName"      :(1,15),
           "job"             :(1,16),
           "picture"         :(1,17),
-          "valid_score"     :(1,18)
+          "place_of_birth"  :(1,18)
           }
+field_name_coor = {}
          
 def countryCodes(code_in):
     # Convert short code to long name
@@ -63,6 +64,8 @@ def excelFill(mrz):
             elif field == "country":
                 # Convert country code to long country name
                 country = countryCodes(value)
+                # Save country field for to use it in nationality
+                value = country
             elif field == "nationality":
                 # If its ID card is not an ID card for foreigners
                 # Nationality and issuing country are the same
