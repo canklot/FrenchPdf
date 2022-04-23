@@ -98,7 +98,7 @@ def crop_convex_hull(im):
     up = imageBox[1]
     right = imageBox[2]
     down = imageBox[3]
-    margin_percent = 6
+    margin_percent = 10
     margin_amount_horizontal = (right - left) / 100 * margin_percent
     margin_amount_vertical = (down - up) / 100 * margin_percent
     
