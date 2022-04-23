@@ -10,6 +10,7 @@ def findBorrower1NameNew(normalText,DetailedText):
     start = beneficiaireEnd - newlineCount + 3
     firstBold = searchDetailed(DetailedText,None,"Bold",start)[1]
     convertedFirstBoldEnd = indexConvert(firstBold,normalText)
+    # index from search with fonts and normal search are different because they count new line charecter diffirently
     textToFirstboldEnd= normalText[:convertedFirstBoldEnd]
     
     shortText  = normalText[beneficiaireEnd:convertedFirstBoldEnd]

@@ -14,7 +14,6 @@ def findBorrower2Name(normalText,DetailedText):
     textAfterBorrower1Name = normalText[convertedFirstBoldEnd:]
     
     secondBoldEnd= searchDetailed(DetailedText,None,"Bold",firstBold+10)[1]
-    # why +10 I forgot. Man its been only 2 days. As I remember detailed search return end of the word
     convertedSecondBoldEnd = indexConvert(secondBoldEnd,normalText)
     textToSecondBoldEnd = normalText[:convertedSecondBoldEnd]
     

@@ -12,14 +12,6 @@ def findBorrower1Name(text):
     monsieurEndIndx = shortText.rfind("Monsieur")
     # Search Monsieur after beneficiar until after xx charecter. Return -1 if Non trouve
     
-    """ regex= "^Madame.*?,"    
-    #starts with Monsieur any charecter any length ends with comma and lazy. ^ charecter might be unnecesary
-    regexJustNameMadame = "(?<=Madame).*?,"
-    #has Madame before and any letters until comma lazy. Includes comma
-    regexBeforeAfterMonsieur = "(?<=Monsieur).*?(?=,)"
-    #has Monsieur before, any charecters lazy, has comma at the end (Coma doesnt included) 
-    # regex or example ^(http|https):// """
-    
     regexBeforeAfterMadame = r'(?<=Madame).*?(?=,)'
     #has Madame before, any charecters lazy, has comma at the end (Coma doesnt included)
     regexBeforeAfterMonsieur = r'(?<=Monsieur).*?(?=,)'

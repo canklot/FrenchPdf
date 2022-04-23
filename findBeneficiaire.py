@@ -29,30 +29,6 @@ def findBeneficiaire(text):
     
     return smalben
 
-def oldfindBeneficiaire(text):
-    #make new one with fonts. Dont it doesnt work LoL
-    # Make this a list 
-    myregex1 = r"^BENEFICIAIRE+\s*$"
-    myregex2 = r"^BÉNÉFICIAIRE+\s*$" 
-    myregex3 = r"^ACQUEREUR+\s*$"
-    myregexlist = [myregex1,myregex2,myregex3]
-    # Starts with BENEFICIAIRE. After that might have spaces or not. And ends with new line. At least thats what I hope it does. Regex can be confusing
-    # Also includes spaces at the end until encounters another charecter
-    # I am not sure if its check the string starts with new line or not
-    
-    benindx = 999999999
-    for myregex in myregexlist:
-        beneficiare=re.search(myregex, text, flags=re.IGNORECASE|re.MULTILINE)
-        if beneficiare != None:
-            if beneficiare.span()[0] < benindx:
-                benindx = beneficiare.span()[0]
-    if beneficiare == None:
-        raise ValueError('Non trouve BENEFICIAIRE')
-    
-    global beneficiaireEnd
-    beneficiaireEnd = beneficiare.span()[1]
-    
-    return beneficiare
 
 def oldfindBenFonts(normalText,detailedText):
     #make new one with fonts
