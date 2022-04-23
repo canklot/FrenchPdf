@@ -94,8 +94,16 @@ def crop_convex_hull(im):
     plt.show()
     imageBox = PIL.Image.fromarray((chull*255).astype(np.uint8)).getbbox()
     # add margin
-    margin_amount = imageBox[0]
-    cropped = PIL.Image.fromarray(im).crop(imageBox)
+    left = imageBox[0]
+    up = imageBox[1]
+    right = imageBox[2]
+    down = imageBox[3]
+    margin_amount = (right - left) / 100 * 5
+    
+    new_left = max(1,left - margin_amount)
+    new_right = max(im.shape[1],right + margin_amount)
+    newbox = (new_left,up,new_right,down)
+    cropped = PIL.Image.fromarray(im).crop(newbox)
     cropped = np.asarray(cropped)
     plt.imshow(cropped)
     plt.title('crop_convex_hull')

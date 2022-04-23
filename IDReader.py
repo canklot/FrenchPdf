@@ -134,7 +134,7 @@ def main (fileName):
         np270 = np.rot90(image,3)
 
         plt.imshow(np270,cmap="gray")
-        plt.title('rotated')
+        plt.title('rotated 270')
         plt.show()
         
 
@@ -142,7 +142,13 @@ def main (fileName):
         if (mrz !=None) and (mrz.valid_score > 50):
             break
 
-        mrz = getData(image_270)
+        np90 = np.rot90(image,1)
+
+        plt.imshow(np90,cmap="gray")
+        plt.title('rotated 90')
+        plt.show()
+
+        mrz = getData(np90)
         if (mrz !=None) and (mrz.valid_score > 50):
             break
 
